@@ -1,0 +1,6 @@
+Kang-Meng,1,805563608@qq.com,Kangmeng123`,25 Clifton St Caulfield East VIC Australia,0450619187,1
+Guanwen-Liu,2,gwgwew@fnwoe.ewgweg.efew,Qwer1234`,efwef ewfwe ewfwe,3244322123,1
+Shuaiqi-Li,3,shuaiqili@163.com,ABcd..11,wqe22wqe2,12345678,1
+John-Doe,4,jd@jd.com,Password123.,Nowhere,110110110,0
+Jane-Doe,5,jdjd@djdjd.com,AAA132@a,Somewhere,1231231233,1
+-1
