@@ -3,14 +3,14 @@ import java.text.SimpleDateFormat;
 public class Product
 {
     private String id;
-    private ArrayList<String[]> sellingOptionList;
     private String name;
     private double amount;
     private String origin;
     private int shelfLife;
     private double discount;
     private Calendar date;
-
+    private ArrayList<String[]> sellingOptionList;
+    
     public Product()
     {
         id = "";
@@ -24,7 +24,7 @@ public class Product
     }
 
     public Product(String newId,String newName,double newAmount, String newOrigin, int newShelfLife, 
-    double newDiscount, Calendar newDate, ArrayList<String[]> newSellingOptionList)
+                    double newDiscount, Calendar newDate, ArrayList<String[]> newSellingOptionList)
     {
         id = newId;
         name = newName;
@@ -46,7 +46,7 @@ public class Product
         id = newId;
     }
 
-    public ArrayList getSellingOptionList()
+    public ArrayList<String[]> getSellingOptionList()
     {
         return sellingOptionList;
     }
@@ -58,10 +58,10 @@ public class Product
 
     public String[] getSellingOption(int index)
     {
-        String[] sellingOption = sellingOptionList.get(index);
+        String[] sellingOption= sellingOptionList.get(index);
         return sellingOption;
     }
-
+    
     private String[] generateSellingOption(String newOption, String newRate, String newPrice)
     {
         String[] sellingOption = new String[3];
@@ -74,11 +74,6 @@ public class Product
     public void addSellingOption(String newOption, String newRate, String newPrice)
     {
         sellingOptionList.add(generateSellingOption(newOption, newRate, newPrice));
-    }
-
-    public void removeSellingOption(int index)
-    {
-        sellingOptionList.remove(index);
     }
 
     public String getName()
@@ -141,7 +136,7 @@ public class Product
         date = Calendar.getInstance();
     }
 
-    public Calendar countExpiryDate()
+    private Calendar countExpiryDate()
     {
         Calendar expiryDate = Calendar.getInstance();
         expiryDate.setTime(date.getTime());
@@ -168,17 +163,27 @@ public class Product
         return "Fruit";
     }   
 
-    public String calToStr()
+    private String calToStr()
     {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String calStr = sdf.format(date.getTime());
         return calStr;
     }
+    
+    public char inventoryUnit()
+    {
+        if(sellingOptionList.get(0)[0].toUpperCase().equals("KG") || sellingOptionList.get(0)[0].toUpperCase().equals("BAG") || 
+           sellingOptionList.get(0)[0].toUpperCase().equals("BUNCH"))
+            return 'A';
+        else
+            return 'B';
+    }
 
     public void displayProduct()
     {
         String inventoryOption = "";
-        if(sellingOptionList.get(0)[0] == "kg" || sellingOptionList.get(0)[0] == "bag" || sellingOptionList.get(0)[0] == "bunch")
+        if(sellingOptionList.get(0)[0].toUpperCase().equals("KG") || sellingOptionList.get(0)[0].toUpperCase().equals("BAG") || 
+           sellingOptionList.get(0)[0].toUpperCase().equals("BUNCH"))
             inventoryOption = "kg";
         else
             inventoryOption = "wholes";
@@ -186,10 +191,16 @@ public class Product
         for(int i = 0; i < sellingOptionList.size(); i++)
         {
             String[] sellingOption = getSellingOption(i);
-            System.out.println("AU$" + Double.valueOf(sellingOption[2]) * discount + " for 1 " + sellingOption[0] + "(" + sellingOption[1] + " kg)");
+            String discountPrice = String.format("%.2f", Double.valueOf(sellingOption[2]) * discount);
+            System.out.println("Original price: AU$" + Double.valueOf(sellingOption[2]) + " Price after discount: AU$" + 
+                                discountPrice + " for 1 " + sellingOption[0] + "(" + sellingOption[1] + " kg)");
         }
         System.out.println(amount + inventoryOption + " in stoke");
         System.out.println("Shelf life: " + shelfLife + " days, current discount: " + discount + ", Start selling date: " + calToStr());
+        if (ifExpired())
+            System.out.println("Selling condition: Expired!");  
+        else
+            System.out.println("Selling condition: On selling!"); 
         System.out.println("------------------------------------------------------------------------------------");
     }
 
@@ -203,4 +214,5 @@ public class Product
             String.valueOf(discount) + "," + calToStr() + sellingOption;
         return detail;
     }
+    
 }

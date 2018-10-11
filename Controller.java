@@ -1,290 +1,43 @@
-import java.util.*;
 import java.io.*;
-import java.util.ArrayList;
-import java.text.SimpleDateFormat;
+import java.util.*;
 /**
- * Write a description of class Controller here.
+ * Write a description of class NewController here.
  *
- * @author (Pan Qi)
+ * @author (your name)
  * @version (a version number or a date)
  */
 public class Controller
 {
-    private ArrayList<Owner> ownerList;
-    private ArrayList<Customer> customerList;
-    private ArrayList<Product> productList;
-
+    private UserController userController;
+    private ProductController productController;
+    private Cart cart;
     /**
-     * Constructor for objects of class Controller
+     * Constructor for objects of class NewController
      */
-    //Default
     public Controller()
     {
-        ownerList = new ArrayList<Owner>();
-        customerList = new ArrayList<Customer>();
-        productList = new ArrayList<Product>();
-
+        userController = new UserController();
+        productController = new ProductController();
+        cart = new Cart();
     }
 
-    //None default
-    public Controller(ArrayList<Owner> ownerList,ArrayList<Customer> customerList,ArrayList<Product> productList,ArrayList<String> idCounter)
+    public Controller(UserController userController,ProductController productController,Cart cart)
     {
-        this.ownerList = ownerList;
-        this.customerList = customerList;
-        this.productList = productList;
-    }
-
-    public ArrayList<Owner> getOwnerList()
-    {
-        return ownerList;
-    }
-
-    public void setOwnerList(ArrayList<Owner> newOwnerList)
-    {
-        ownerList = newOwnerList;
-    }
-
-    public ArrayList<Customer> getCustomerList()
-    {
-        return customerList;
-    }
-
-    public void setCustomerList(ArrayList<Customer> newCustomerList)
-    {
-        customerList = newCustomerList;
-    }
-
-    public ArrayList<Product> getProductList()
-    {
-        return productList;
-    }
-
-    public void setProductList(ArrayList<Product> newProductList)
-    {
-        productList = newProductList;
-    }
-
-    private int productIndex(String id)
-    {
-        int size = productList.size();
-        for (int i = 0;i < size;i++)
-            if (productList.get(i).getId().equals(id))
-                return i;
-        return -1;
-    }
-
-    private void editProductMenu()
-    {
-        Menu menu = new Menu();
-        System.out.println("Please enter the product id which you want edit:");
-        Scanner console = new Scanner(System.in);
-        String id = console.nextLine().trim();
-        int productIndex = productIndex(id);
-        if (productIndex == -1)
-        {
-            System.out.println("Product doesn't exist!");
-            enterContinue();
-            ownerMenu();
-        }
-        else
-            editProduct(productIndex);
-    }
-
-    private void editProduct(int index)
-    {
-        Menu menu = new Menu();
-        char option = menu.editProduct();
-        switch(option)
-        {
-            case 'A': editProductName(index);break;
-            //case 'B': editSellingOption();break;
-            case 'C': editCategory(index);break;
-            case 'D': editAmount(index);break;
-            case 'E': editOrigin(index);break;
-            case 'F': editShelfLife(index);break;
-            case 'G': editDiscount(index);break;
-            case 'X': ownerMenu();break;
-            default : break;
-        }
-        editMore(index);
-    }
-
-    private void editDiscount(int index)
-    {
-        Validation valide = new Validation();
-        Scanner console = new Scanner(System.in);
-        double discount = getProductDiscount();
-        productList.get(index).setDiscount(discount);
-        System.out.println("Discount edited!");
-    }
-
-    private void editShelfLife(int index)
-    {
-        int shelfLife = getProductShelfLife();
-        productList.get(index).setShelfLife(shelfLife);
-        System.out.println("Shelf life edited!");
-    }
-
-    private void editOrigin(int index)
-    {
-        String origin = getProductOrigin();
-        productList.get(index).setOrigin(origin);
-        System.out.println("Origin edited!");
-    }
-
-    private void editCategory(int index)
-    {
-        String category = getProductCategory();
-        String oldId = productList.get(index).getId();
-        String newId = category.substring(0,1) + oldId.substring(1);
-        productList.get(index).setId(newId);
-        System.out.println("Category edited!");
-    }
-
-    private void editMore(int index)
-    {
-        System.out.println("Do you want edit this product more?[y/n]");
-        Validation valide = new Validation();
-        Scanner console = new Scanner(System.in);
-        String option = console.nextLine().trim().toUpperCase();
-        while (!valide.validateYN(option))
-            option = console.nextLine().trim().toUpperCase();
-
-        if (option.equals("Y"))
-            editProduct(index);    
-        else
-            ownerMenu();
-    }
-
-    private void editAmount(int index)
-    {
-        double amount = getProductAmount();
-        productList.get(index).setAmount(amount);
-        System.out.println("Amount edited!");
-    }
-
-    private void editProductName(int index)
-    {
-        String name = getProductName();
-        productList.get(index).setName(name);
-        System.out.println("Name edited!");
-    }
-
-    private void addProduct()
-    {
-        int size = productList.size();  
-        String id = "";
-        String name = getProductName();
-        double amount = getProductAmount();
-        String origin = getProductOrigin();
-        int shelfLife = getProductShelfLife();
-        double discount = getProductDiscount();
-        String category = getProductCategory();
-        category = category.substring(0,1).toUpperCase();
-        if (size == 0)
-            id = category + String.valueOf(1);
-        else 
-        {
-            String idNumber = productList.get(size - 1).getId().substring(1);
-            String newNumber = String.valueOf(Integer.valueOf(idNumber) + 1);
-            id = category + newNumber;
-        }
-
-        //productList.add(new Product(id,));
-    }
-
-    private String getProductCategory()
-    {
-        Scanner console = new Scanner(System.in);
-        Validation valide = new Validation();
-        System.out.println("Please enter product category:");
-        String category = console.nextLine().trim();
-        while (!valide.validateProductCategory(category))
-            category = console.nextLine().trim();
-
-        return category;
-    }
-
-    private double getProductDiscount()
-    {
-        Scanner console = new Scanner(System.in);
-        Validation valide = new Validation();
-        System.out.println("Please enter product discount:");
-        String discount = console.nextLine().trim();
-        while (!valide.validateProductDiscount(discount))
-            discount = console.nextLine().trim();
-
-        return Double.valueOf(discount);
-    }
-
-    private int getProductShelfLife()
-    {
-        Scanner console = new Scanner(System.in);
-        Validation valide = new Validation();
-        System.out.println("Please enter product shelf life:");
-        String shelfLife = console.nextLine().trim();
-        while (!valide.validateProductShelfLife(shelfLife))
-            shelfLife = console.nextLine().trim();
-
-        return Integer.valueOf(shelfLife);
-    }
-
-    private double getProductAmount()
-    {
-        Scanner console = new Scanner(System.in);
-        Validation valide = new Validation();
-        System.out.println("Please enter product amount:");
-        String amount = console.nextLine().trim();
-        while (!valide.validateProductAmount(amount))
-            amount = console.nextLine().trim();
-
-        return Double.valueOf(amount);
-    }
-
-    private String getProductOrigin()
-    {
-        Scanner console = new Scanner(System.in);
-        Validation valide = new Validation();
-        System.out.println("Please enter product origin:");
-        String origin = console.nextLine().trim();
-        while (!valide.validateProductOrigin(origin))
-            origin = console.nextLine().trim();
-
-        return origin;
-    }
-
-    private boolean ifProductNameSame(String name)
-    {
-        int size = productList.size();
-        for (int i = 0;i < size;i++)
-            if (productList.get(i).getName().equals(name))
-            {
-                System.out.println("Product name same,please change a new name!");
-                return true;
-            }
-
-        return false;
-    }
-
-    private String getProductName()
-    {
-        Scanner console = new Scanner(System.in);
-        Validation valide = new Validation();
-        System.out.println("Please enter product name:");
-        String name = console.nextLine().trim();
-        while (!valide.validateProductName(name) || ifProductNameSame(name))
-            name = console.nextLine().trim();
-
-        return name;
+        this.userController = userController;
+        this.productController = productController;
+        this.cart = cart;
     }
 
     public void main()
     {
-        setList();
+        Scanner console = new Scanner(System.in);
         Menu menu = new Menu();
+        setList();
         menu.welcomePage();
-        enterContinue();
+        System.out.println("Please press enter to continue!");
+        console.nextLine();
         mainMenu();
+        //writeDetails();
     }
 
     private void mainMenu()
@@ -295,111 +48,205 @@ public class Controller
         {
             case 'A': ownerLogin();break;
             case 'B': customerLogin();break;
-            case 'C': register();break;
+            case 'C': register();
+            mainMenu();break;
             case 'X': menu.exitPage();break;
             default : break;
+        }
+    }
+
+    private void customerLogin()
+    {
+        int index = userController.testCustomerLogin();
+        if (index >= 0)
+            customerMenu(index);
+        else 
+        {
+            System.out.println("Please press enter to continue!");
+            Scanner console = new Scanner(System.in);
+            console.nextLine();
+            mainMenu();
         }
     }
 
     private void customerMenu(int index)
     {
         Menu menu = new Menu();
-        char option;
-        option = menu.customerMenu();
+        char option = menu.customerMenu();
         switch(option)
         {
-            case 'A':addProductToCart(index);break;
-            //                case 'B':deleteProductFromCart();break;
-            //                case 'C':purchaseProduct();break;
-            case 'D':customerViewProduct(index);break;
-            //                case 'E':exchangeAndRefund();break;
+            case 'A':addProductToCart();
+            customerMenu(index);break;
+            case 'B':deleteProductFromCart();break;
+            //case 'C':purchaseProduct(index);break;
+            case 'D':productController.viewProduct();
+            customerMenu(index);break;
+            case 'E':cart.displayCart();
+            customerMenu(index);break;
             case 'F':searchProduct();
-                     enterContinue();
-                     customerMenu(index);
-                     break;
-            case 'G':customerViewTransaction(index);break;
+            customerMenu(index);break;
+            //case 'G':customerViewTransaction(index);break;
             case 'H':changeCustomerInformation(index);break;
-            case 'I':ungister(index);break;
-            //case 'X':returnProduct();
+            case 'I':userController.ungister(index);break;
+            //case 'X':returnProduct(index);
             //         mainMenu();break;
             default:break;
         }
     }
+ 
 
-    private void addProductToCart(int index)
+    private void deleteProductFromCart()
+    {
+        System.out.println("\u000c");
+        cart.displayCart();
+        System.out.println("Please choose the item to delete!");
+        int index = chooseOption(cart.getPurchaseList().size()) - 1;
+        cart.removeFromCart(index);
+    }
+    
+    private void addProductToCart()
     {
         Scanner console = new Scanner(System.in);
         System.out.println("Please enter product id: ");
         String id = console.nextLine().trim();
-        int productIndex = verifyProductId(id);
-        //if (productIndex >= 0)
-            
-    }
-    
-    
-    
-    private int verifyProductId(String id)
-    {
-        int size = productList.size();
-        int productIndex = 0;
-        boolean found = false;
-        while (productIndex < size && !found)
+        int productIndex = productController.verifyProductId(id);
+        if (productIndex >= 0)
         {
-            if (productList.get(productIndex).getId().equals(id))
-                found = true;
-            productIndex++;
+            int optionSize = productController.showSellingOption(productIndex);
+            System.out.println("Please enter the number of selling option:");
+            int option = chooseOption(optionSize);
+            String name = productController.getProductList().get(productIndex).getName();
+            String optionName = productController.getProductList().get(productIndex).getSellingOption(option - 1)[0];
+            String rate = productController.getProductList().get(productIndex).getSellingOption(option - 1)[1];
+            double amount = chooseAmount(productIndex,rate);
+            productController.getProductList().get(productIndex).setAmount(productController.getProductList().get(productIndex).getAmount() - amount);
+            double discount = productController.getProductList().get(productIndex).getDiscount();
+            String price = productController.getProductList().get(productIndex).getSellingOption(option - 1)[2];
+            price = String.valueOf(discount * Double.parseDouble(price));
+            cart.addToCart(id,name,String.valueOf(amount),optionName,price,rate);
         }
-        
-        if (found)
-        {
-            productIndex--;
-            if (productList.get(productIndex).ifExpired())
-            {
-                System.out.println("Product expired!");
-                return -1;
-            }
-            else
-                return productIndex;
-        }
-        else 
-            return -1;
+        else
+            System.out.println("Product not found,please view product to check product id!");
+        System.out.println("Item added into cart!");
+        System.out.println("Please press enter to continue! ");
+        console.nextLine();
     }
 
-    private void customerViewTransaction(int index)
+    private double chooseAmount(int index,String rate)
     {
-        customerList.get(index).displayTransaction();
+        ReadInput read = new ReadInput();
+        double amount = read.readProductAmount();
+        double amountRate = Double.parseDouble(rate);
+        while(amount > productController.getProductList().get(index).getAmount() * amountRate)
+        {
+            System.out.println("The amount in stock is " + productController.getProductList().get(index).getAmount());
+            System.out.println("Amount higher than in stock,please enter again!");
+            amount = read.readProductAmount();
+        }
+        return amount;
+    }
+    
+    public int chooseOption(int size)
+    {
+        Scanner console = new Scanner(System.in);
+        String option = console.nextLine().trim();
+        String str = String.valueOf(size);
+        char cr = str.charAt(0);
+        while (!(option.length() == 1 && ((option.charAt(0) >= '1' && option.charAt(0) <= cr))))
+        {
+            System.out.println("Input invalid. Please choose 1..." + size);
+            option = console.nextLine().trim();
+        }
+        return Integer.parseInt(String.valueOf(option.charAt(0)));
     }
 
-    private void customerLogin()
+    private void changeCustomerInformation(int index)
     {
-        int index = testCustomerLogin();
-        if (index >= 0)
-            customerMenu(index);
-        else 
+        Menu menu = new Menu();
+        ReadInput read = new ReadInput();
+        char option = menu.changeCustomerInformation();
+        switch(option)
         {
-            enterContinue();
+            case 'A':userController.changeCustomerName(index,read.readUserName());break;
+            case 'B':userController.changeCustomerEmail(index,read.readUserEmail());break;
+            case 'C':userController.changeCustomerPassword(index,read.readUserPassword());break;
+            case 'D':userController.changeCustomerAddress(index,read.readUserAddress());break;
+            case 'E':userController.changeCustomerPhone(index,read.readUserPhone()); break;
+            case 'X':customerMenu(index);break;
+            default:break;
+        }
+    }
+
+    private void register()
+    {
+        ReadInput read = new ReadInput();
+        String name = read.readUserName();
+        String email = read.readUserEmail();
+        if (!userController.ifEmailSame(email))
+        {    
+            String password = read.readUserPassword();
+            String address = read.readUserAddress();
+            String phone = read.readUserPhone();
+            userController.register(name,email,password,address,phone);
+            System.out.println("New customer registered!");
+        }
+        System.out.println("Please press enter to continue!");
+        Scanner console = new Scanner(System.in);
+        console.nextLine();
+    }
+
+    private void ownerLogin()
+    {  
+        if (userController.testOwnerLogin())
+            ownerMenu();
+        else 
             mainMenu();
-        }
     }
 
     private void ownerMenu()
     {
         Menu menu = new Menu();
+        Scanner console = new Scanner(System.in);
         char option = menu.ownerMenu();
         switch(option)
         {
-            case 'A':addProduct();break;
-            case 'B':deleteProduct();break;
-            case 'C':ownerViewProduct();break;
-            case 'D':editProductMenu();break;
-            case 'E':searchProduct();
-                     enterContinue();
-                     ownerMenu();
-                     break;
-            case 'F':viewCustomer();break;
-            case 'G':ownerViewTransaction();break;
+            case 'A':addProduct();
+            System.out.println("Please press enter to continue!");
+            console.nextLine();
+            ownerMenu();break;
+            case 'B':productController.deleteProduct();
+            System.out.println("Please press enter to continue!");
+            console.nextLine();
+            ownerMenu();break;
+            case 'C':productController.viewProduct();
+            ownerMenu();break;
+            case 'D':editProduct();break;
+            case 'E':searchProduct();break;
+            case 'F':userController.viewCustomer();
+            System.out.println("Please press enter to continue!");
+            console.nextLine();
+            ownerMenu();break;
+            //case 'G':ownerViewTransaction();break;
             case 'H':changeOwnerInformation();break;
             case 'X':mainMenu();break;
+            default:break;
+        }
+    }
+
+    private void changeOwnerInformation()
+    {
+        Menu menu = new Menu();
+        ReadInput read = new ReadInput();
+        char option = menu.changeOwnerInformation();
+        switch(option)
+        {
+            case 'A':userController.changeOwnerName(read.readUserName());
+            changeOwnerInformation();break;
+            case 'B':userController.changeOwnerEmail(read.readUserEmail());
+            changeOwnerInformation();break;
+            case 'C':userController.changeOwnerPassword(read.readUserPassword());
+            changeOwnerInformation();break;
+            case 'X':ownerMenu();break;
             default:break;
         }
     }
@@ -407,548 +254,157 @@ public class Controller
     private void searchProduct()
     {
         Menu menu = new Menu();
+        ReadInput read = new ReadInput();
         char option = menu.searchProductMenu();
         switch(option)
         {
-            case 'A':searchByName();break;
-            case 'B':searchByCategory();break;
-            case 'C':searchByOrigin();break;
-            case 'D':searchByDiscount();break;
-            case 'X':break;
-            default:break;
+            case 'A': productController.searchProductByName();
+            searchProduct();break;
+            case 'B': productController.searchByCategory(read.readProductCategory());
+            searchProduct();break;
+            case 'C': productController.searchByOrigin();
+            searchProduct();break;
+            case 'D': searchByDiscount();
+            searchProduct();break;
+            case 'x': ownerMenu();break;
+            default: break;
         }
     }
 
     private void searchByDiscount()
     {
         Menu menu = new Menu();
-        char option = menu.searchByDiscountMenu();
-        switch (option)
-        {
-            case 'A': searchByDiscountLowerThan();break;
-            case 'B': searchByDiscountHigherThan();break;
-            case 'C': searchByDiscountBetween();break;
-            case 'X': searchProduct();break;
-            default: break;
-        }
-    }
-
-    private void searchByDiscountLowerThan()
-    {
-        System.out.println("Please enter maximum discount(range:(0,1])");
-        double discount = getProductDiscount();
-        System.out.println("Search result: ");
-        for (int index = 0; index < productList.size(); index++)
-        {
-            if (productList.get(index).getDiscount() < discount)
-                productList.get(index).displayProduct();
-        }
-
-        enterContinue();
-        searchByDiscount();
-    }
-
-    private void searchByDiscountHigherThan()
-    {
+        ReadInput read = new ReadInput();
+        char option = menu.searchProductMenu();
         System.out.println("Please enter minimum discount(range:(0,1]) ");
-        double discount = getProductDiscount();
-        System.out.println("Search result: ");
-        for (int index = 0; index < productList.size(); index++)
+        double minDiscount = read.readProductDiscount();
+        System.out.println("Please enter maximum discount(range:(0,1]) ");
+        double maxDiscount = read.readProductDiscount();
+        while(minDiscount > maxDiscount)
         {
-            if (productList.get(index).getDiscount() > discount)
-                productList.get(index).displayProduct();
-        }
-
-        enterContinue();
-        searchByDiscount();
-    }
-
-    private void searchByDiscountBetween()
-    {
-        double minimumDiscount = 0.0;
-        double maxmumDiscount = 0.0;
-        do
-        {
+            System.out.println("Minimum discount can't be larger than maximum discount,please input again!");
             System.out.println("Please enter minimum discount(range:(0,1]) ");
-            minimumDiscount = getProductDiscount();
+            minDiscount = read.readProductDiscount();
             System.out.println("Please enter maximum discount(range:(0,1]) ");
-            maxmumDiscount = getProductDiscount();
-            if (minimumDiscount > maxmumDiscount)
-                System.out.println("Minimum discount should be lower than maxmum discount");
-        }while(minimumDiscount > maxmumDiscount);
-
-        System.out.println("Search result: ");
-
-        for (int index = 0; index < productList.size(); index++)
-        {
-            if (productList.get(index).getDiscount() <= maxmumDiscount && productList.get(index).getDiscount() >= minimumDiscount)
-                productList.get(index).displayProduct();
+            maxDiscount = read.readProductDiscount();
         }
-
-        enterContinue();
-        searchByDiscount();
+        productController.searchByDiscount(minDiscount,maxDiscount);
     }
 
-    private void searchByOrigin()
-    {
-        Scanner console = new Scanner(System.in);
-        System.out.println("Please enter product origin: ");
-        String origin = console.nextLine().trim();
-        int size = productList.size();
-        System.out.println("Search result: ");
-        for (int i = 0;i < size;i++)
-            if (productList.get(i).getOrigin().contains(origin))
-                productList.get(i).displayProduct();
-
-        enterContinue();
-        searchProduct();
-    }
-
-    private void searchByName()
-    {
-        Scanner console = new Scanner(System.in);
-        System.out.println("Please enter product name: ");
-        String name = console.nextLine().trim();
-        int size = productList.size();
-        System.out.println("Search result: ");
-        for (int i = 0;i < size;i++)
-            if (productList.get(i).getName().contains(name))
-                productList.get(i).displayProduct();
-
-        enterContinue();
-        searchProduct();
-    }
-
-    private void searchByCategory()
-    { 
-        String category = getProductCategory().trim();
-        category = category.substring(0,1).toUpperCase();
-        int size = productList.size();
-        System.out.println("Search result: ");
-        for (int i = 0;i < size;i++)
-            if (productList.get(i).getId().substring(0,1).equals(category))
-                productList.get(i).displayProduct();
-
-        enterContinue();
-        searchProduct();
-    }
-
-    private void ownerViewTransaction()
-    {
-        int size = customerList.size();
-        for (int i = 0;i < size;i++)
-            customerList.get(i).displayTransaction();
-
-        enterContinue();
-        ownerMenu();
-    }
-
-    private void changeOwnerInformation()
+    private void addProduct()
     {
         Menu menu = new Menu();
-        char option = menu.changeOwnerInformation();
-        switch(option)
+        ReadInput read = new ReadInput();
+        System.out.println("Please input product details :");
+        String name = read.readProductName();
+        char unit = menu.inventoryUnit();
+        double amount = read.readProductAmount();
+        String origin = read.readProductOrigin();
+        int shelfLife = read.readProductShelfLife();
+        double discount = read.readProductDiscount();
+        String category = read.readProductCategory();
+        ArrayList<String[]> sellingOption = chooseSellingOption(unit);
+        productController.addProduct(name,amount,origin,shelfLife,discount,category,sellingOption);
+    }
+
+    private ArrayList<String[]> chooseSellingOption(char unit)
+    {
+        Menu menu = new Menu();
+        ReadInput read = new ReadInput();
+        ArrayList<String[]> sellingOption = new ArrayList<String[]>();
+        if (unit == 'A')
         {
-            case 'A':changeOwnerName();break;
-            case 'B':changeOwnerEmail();break;
-            case 'C':changeOwnerPassword();break;
-            case 'X':ownerMenu();break;
-            default:break;
+            do 
+            {
+                char option = menu.sellingOptionByWeight();
+                switch(option)
+                {
+                    case 'A':sellingOption.add(new String[]{"kg","1",read.readProductPrice()});break;
+                    case 'B':sellingOption.add(new String[]{"buntch",read.readProductExchangeAmount("buntch"),read.readProductPrice()});break;
+                    case 'C':sellingOption.add(new String[]{"bag",read.readProductExchangeAmount("bag"),read.readProductPrice()});break;
+                    default:break;
+                }
+                System.out.println("Do you want add more selling option?[y/n]");
+            }
+            while(read.readYNOption().equals("Y"));
         }
+        else
+        {
+            do 
+            {
+                char option = menu.sellingOptionByWeight();
+                switch(option)
+                {
+                    case 'A':sellingOption.add(new String[]{"whole","1",read.readProductPrice()});break;
+                    case 'B':sellingOption.add(new String[]{"half",read.readProductExchangeAmount("half"),read.readProductPrice()});break;
+                    default:break;
+                }
+                System.out.println("Do you want add more selling option?[y/n]");
+            }
+            while(read.readYNOption().equals("Y"));
+        }
+        return sellingOption;
     }
 
-    private void changeOwnerPassword()
+    public void editProduct()
     {
-        String password = getUserPassword();
-        ownerList.get(0).setPassword(password);
-        System.out.println("Password changed!");
-        enterContinue();
-        changeOwnerInformation();
-    }
-
-    private void changeOwnerEmail()
-    {
-        Validation valide = new Validation();
-        Scanner console = new Scanner(System.in);
-        System.out.println("Please enter you email:");
-        String email = console.nextLine().trim();
-        while (!valide.validateUserEmail(email))
-            email = console.nextLine().trim(); 
-
-        ownerList.get(0).setEmail(email);
-        System.out.println("Email changed!");
-        enterContinue();
-        changeOwnerInformation();
-    }
-
-    private void changeOwnerName()
-    {
-        String name = getUserName();
-        ownerList.get(0).setName(name);
-        System.out.println("Name changed!");
-        enterContinue();
-        changeOwnerInformation();
-    }
-
-    private void deleteProduct()
-    {
-        System.out.println("Please enter the product id which you want delete:");
+        System.out.println("Please enter the product id which you want edit:");
         Scanner console = new Scanner(System.in);
         String id = console.nextLine().trim();
-        int productIndex = productIndex(id);
+        int productIndex = productController.productIndex(id);
         if (productIndex == -1)
+        {
             System.out.println("Product doesn't exist!");
-        else
-        {
-            customerList.remove(productIndex);
-            System.out.println("Product deleted!");
-        }
-        enterContinue();
-        ownerMenu();
-    }
-
-    private void ownerLogin()
-    {  
-        if (testOwnerLogin())
-        {
+            System.out.println("Please press enter to continue!");
+            console.nextLine();
             ownerMenu();
         }
-        else 
-            mainMenu();
-    }
-
-    private boolean testOwnerLogin()
-    {
-        Scanner console = new Scanner(System.in);
-        System.out.println("Please enter you email:");
-        String email = console.nextLine();
-        boolean login = false;
-        if (ownerList.get(0).getEmail().equals(email))
-        {
-            String storedPassword = ownerList.get(0).getPassword();
-            login = verifyPassword(storedPassword);
-        }
         else
-            System.out.println("Owner email incorrect,please comfirm!");
-        enterContinue();   
-
-        return login;
+            editProduct(productIndex);
     }
 
-    private int testCustomerLogin()
-    {
-        Scanner console = new Scanner(System.in);
-        System.out.println("Please enter you email:");
-        String email = console.nextLine().trim();
-        int size = customerList.size();
-        boolean found = false;
-        int index = 0;
-        while(index < size && !found)
-        {
-            if (customerList.get(index).getEmail().equals(email))
-                found = true;
-            index++;
-        }
-
-        if (!found)
-            System.out.println("No account \"" + email + "\", please register!");
-        else
-        {
-            index = index - 1;            
-            if (!customerList.get(index).getRegisterCondition())
-                System.out.println("Account \"" + email + "\" has been ungistered, please register a new account!");
-            else
-            {
-                String storedPassword = customerList.get(index).getPassword();
-                if (verifyPassword(storedPassword))
-                    return index;
-            }
-        }
-
-        return -1;
-    }
-
-    private boolean verifyPassword(String storedPassword)
-    {
-        System.out.println("Please enter your password:");
-        Scanner console = new Scanner(System.in);
-        String password = console.nextLine();
-        int inputTime = 1;
-        boolean verify = false;
-        while (inputTime <= 3 && !verify)
-        {
-            if (password.equals(storedPassword))
-                verify = true;
-
-            else
-            {
-                System.out.println("Wrong password!");
-                System.out.println("You have entered password " + inputTime + " time(s).");
-                if (inputTime == 3)
-                    System.out.println("Please confirm your password!");
-                else
-                {
-                    System.out.println("At most try 3 times!");
-                    System.out.println("Please enter your password:");
-                    password = console.nextLine();
-                }
-            }
-            inputTime++;
-        }
-
-        if (verify == true)
-            System.out.println("Welcome " + ownerList.get(0).getName() + " !");
-        return verify;
-    }
-
-    private String getUserName()
-    {
-        Scanner console = new Scanner(System.in);
-        Validation valide = new Validation();
-        System.out.println("Please enter your name:");
-        System.out.println("Your name format could be \"Given name\"-\"Family name\",whthout whitespace!");
-        System.out.println("Your name can't be less than two characters,at most one \"-\" in the middle.");
-        String name = console.nextLine().trim();
-        while (!valide.validateUserName(name))
-            name = console.nextLine().trim();
-
-        return name;
-    }
-
-    private String getUserEmail()
-    {
-        Scanner console = new Scanner(System.in);
-        Validation valide = new Validation();
-        System.out.println("Please enter your email:");
-        String email = console.nextLine().trim();
-        while (!valide.validateUserEmail(email) || ifEmailSame(email))
-            email = console.nextLine().trim();
-
-        return email;
-    }
-
-    private String getUserPassword()
-    {
-        Scanner console = new Scanner(System.in);
-        Validation valide = new Validation();
-        System.out.println("Please enter your password:");
-        String password = console.nextLine().trim();
-        while (!valide.validatePassword(password))
-            password = console.nextLine().trim();
-
-        return password;
-    }
-
-    private String getUserAddress()
-    {
-        Scanner console = new Scanner(System.in);
-        Validation valide = new Validation();
-        System.out.println("Please enter your address:");
-        String address = console.nextLine().trim();
-        while (!valide.validateUserAddress(address))
-            address = console.nextLine().trim();
-
-        return address;
-    }
-
-    private String getUserPhone()
-    {
-        Scanner console = new Scanner(System.in);
-        Validation valide = new Validation();
-        System.out.println("Please enter your phone number:");
-        String phone = console.nextLine().trim();
-        while (!valide.validateUserPhone(phone))
-            phone = console.nextLine().trim();  
-
-        return phone;
-    }
-
-    private void register()
-    {
-        String id = "";
-
-        if(customerList.size() == 0)
-            id = "1";
-        else
-        {
-            String currentId = customerList.get(customerList.size() - 1).getId();
-            id = String.valueOf(Integer.valueOf(currentId) + 1);
-        }
-        String name = getUserName();
-        String email = getUserEmail();
-        String password = getUserPassword();
-        String address = getUserAddress();
-        String phone = getUserPhone();
-
-        customerList.add(new Customer(name,id,email,password,address,phone,true));
-        System.out.println("New customer registered!");
-        enterContinue();
-        mainMenu();
-    }
-
-    private boolean ifEmailSame(String email)
-    {
-        int size = customerList.size();
-        for(int i = 0;i < size;i++)
-            if (customerList.get(i).getEmail().equals(email))
-            {
-                System.out.println("Account has been registered,please change your email!");
-                return true;
-            }
-        return false;
-    }
-
-    private void ungister(int index)
-    {
-        customerList.get(index).setRegisterCondition(false);
-    }
-
-    private void changeCustomerName(int index)
-    {
-        String name = getUserName();
-        customerList.get(index).setName(name);
-        enterContinue();
-        changeCustomerInformation(index);
-    }
-
-    private void changeCustomerEmail(int index)
-    {
-        String email = getUserEmail();
-        customerList.get(index).setEmail(email);
-        enterContinue();
-        changeCustomerInformation(index);
-    }
-
-    private void changeCustomerPassword(int index)
-    {
-        String password = getUserPassword();
-        customerList.get(index).setPassword(password);
-        enterContinue();
-        changeCustomerInformation(index);
-    }
-
-    private void changeCustomerAddress(int index)
-    {
-        String address = getUserAddress();
-        customerList.get(index).setAddress(address);
-        enterContinue();
-        changeCustomerInformation(index);
-    }
-
-    private void changeCustomerPhone(int index)
-    {
-        String phone = getUserPhone();
-        customerList.get(index).setPhone(phone);
-        enterContinue();
-        changeCustomerInformation(index);
-    }
-
-    private void changeCustomerInformation(int index)
+    private void editProduct(int index)
     {
         Menu menu = new Menu();
-        char option = menu.changeCustomerInformation();
+        ReadInput read = new ReadInput();
+        char option = menu.editProduct();
         switch(option)
         {
-            case 'A':changeCustomerName(index);break;
-            case 'B':changeCustomerEmail(index);break;
-            case 'C':changeCustomerPassword(index);break;
-            case 'D':changeCustomerAddress(index);break;
-            case 'E':changeCustomerPhone(index); break;
-            case 'X':customerMenu(index);break;
-            default:break;
+            case 'A': productController.editProductName(index,read.readProductName());
+            editProduct(index);break;
+            case 'B': editSellingOption(index);
+            editProduct(index);break;
+            case 'C': productController.editCategory(index,read.readProductCategory());
+            editProduct(index);break;
+            case 'D': productController.editAmount(index,read.readProductAmount());
+            editProduct(index);break;
+            case 'E': productController.editOrigin(index,read.readProductOrigin());
+            editProduct(index);break;
+            case 'F': productController.editShelfLife(index,read.readProductShelfLife());
+            editProduct(index);break;
+            case 'G': productController.editDiscount(index,read.readProductDiscount());
+            editProduct(index);break;
+            case 'X': ownerMenu();break;
+            default : break;
         }
     }
 
-    private void customerViewProduct(int index)
+    private void editSellingOption(int index)
     {
-        System.out.println("\u000c");
-        System.out.println("                   Product Details");
-        System.out.println("------------------------------------------------------------------------------------");
-        int size = productList.size();
-        for (int i = 0;i < size;i++)
-            if (!productList.get(i).ifExpired())
-                productList.get(i).displayProduct();
-        
-        enterContinue();
-        customerMenu(index);
-    }
-    
-    private void ownerViewProduct()
-    {
-        System.out.println("\u000c");
-        System.out.println("                   Product Details");
-        System.out.println("------------------------------------------------------------------------------------");
-        int size = productList.size();
-        for (int i = 0;i < size;i++)
-            productList.get(i).displayProduct();
-        
-        enterContinue();
-        ownerMenu();
+        char unit = productController.getInventoryUnit(index);
+        ArrayList<String[]> sellingOption = chooseSellingOption(unit);
+        productController.editSellingOption(index,sellingOption);
     }
 
     private void setList()
     {
-        ArrayList<String> detailList = readDetails("customerDetails.txt");
-        int size = detailList.size();
-        for(int i = 0;i < size;i++)
-        {
-            String[] details = detailList.get(i).split(",");
-            boolean condition = true;
-            if (details[6].equals("0"))
-                condition = false;
-            customerList.add(new Customer(details[0],details[1],details[2],details[3],details[4],details[5],condition));
-        }
-
-        detailList = readDetails("ownerDetails.txt");
-        String[] details = detailList.get(0).split(",");
-        ownerList.add(new Owner(details[0],details[1],details[2],details[3]));
-
-
-        detailList = readDetails("productDetails.txt");
-        size = detailList.size();
-        for(int i = 0;i < size;i++)
-        {
-            String[] productDetails = detailList.get(i).split(",");
-            Calendar date = strToCal(productDetails[6]);
-            int length = productDetails.length;
-            int totalIndex = length - 1;
-            int currentIndex = 7;
-            ArrayList<String[]> sellingOptionList = new ArrayList<String[]>();
-            while (currentIndex < totalIndex)
-            {
-                String[] option = new String[]{productDetails[currentIndex],productDetails[currentIndex + 1],productDetails[currentIndex + 2]};
-                sellingOptionList.add(option);
-                currentIndex += 3;
-            }
-
-            productList.add(new Product(productDetails[0],productDetails[1],Double.valueOf(productDetails[2]),productDetails[3],
-                                        Integer.parseInt(productDetails[4]),Double.parseDouble(productDetails[5]),date,sellingOptionList));
-        }
-
-        detailList = readDetails("transaction.txt");
-        size = detailList.size();
-    }
-    
-    private Calendar strToCal(String str)
-    {
-        Date date = new Date();
-        SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy");
-        try
-        {
-            date = sdf.parse(str);
-        }
-        
-        catch(Exception e)
-        {
-            System.out.println("Calendar Exception.");
-        }
-        finally
-        {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(date);
-            return calendar;
-        }
-        
+        ArrayList<String> ownerDetails = readDetails("ownerDetails.txt");
+        ArrayList<String> customerDetails = readDetails("customerDetails.txt");
+        userController.setUserList(ownerDetails,customerDetails);
+        ArrayList<String> productDetails = readDetails("productDetails.txt");
+        productController.initialProductList(productDetails);        
+        //detailList = readDetails("transaction.txt");
+        //size = detailList.size();
     }
 
     private ArrayList<String> readDetails(String fileName)
@@ -956,7 +412,7 @@ public class Controller
         ArrayList<String> detailList = new ArrayList<String>();
         try
         {
-            FileReader inputFile = new FileReader(fileName);//FileReader object.
+            FileReader inputFile = new FileReader(fileName);
             try
             {
                 Scanner parser = new Scanner(inputFile);
@@ -990,48 +446,28 @@ public class Controller
         return detailList;
     }
 
-    private void enterContinue()
-    {  
-        System.out.println("");
-        System.out.println("Press enter to continue");
-        Scanner console = new Scanner(System.in);
-        console.nextLine();
-    }
-    
-    private void viewCustomer()
-    {        
-        System.out.println("\u000c");
-        System.out.println("                     Customer Details");
-        System.out.println("---------------------------------------------------------------");
-        int size = customerList.size();
-        for (int i = 0;i < size;i++)
-            customerList.get(i).displayCustomer();
-        enterContinue();
-        ownerMenu();
-    }
-    
     private void writeDetails()
     {
         try
         {
             PrintWriter outputFile = new PrintWriter("customerDetails.txt");            
-            for (int i = 0;i < customerList.size();i++)
-                outputFile.println(customerList.get(i).getDetail()); 
-            
+            for (int i = 0;i < userController.getCustomerList().size();i++)
+                outputFile.println(userController.getCustomerList().get(i).getDetail()); 
+
             outputFile.println("-1");
             outputFile.close();
-            
+
             outputFile = new PrintWriter("ownerDetails.txt");            
-            for (int i = 0;i < ownerList.size();i++)
-                outputFile.println(ownerList.get(i).getDetail()); 
-            
+            for (int i = 0;i < userController.getOwnerList().size();i++)
+                outputFile.println(userController.getOwnerList().get(i).getDetail()); 
+
             outputFile.println("-1");
             outputFile.close();
-            
+
             outputFile = new PrintWriter("productDetails.txt");            
-            for (int i = 0;i < productList.size();i++)
-                outputFile.println(productList.get(i).getDetail()); 
-            
+            for (int i = 0;i < productController.getProductList().size();i++)
+                outputFile.println(productController.getProductList().get(i).getDetail()); 
+
             outputFile.println("-1");
             outputFile.close();
         }
@@ -1039,6 +475,6 @@ public class Controller
         {
             System.out.println("I/O error happend when write file");
         }
-        System.out.println("Details written succeed!");
     }    
+
 }

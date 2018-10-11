@@ -62,7 +62,6 @@ public class Validation
                 else if ((productDiscount.charAt(i)) == ('.'))
                     a++;
             }
-
         }
 
         if (a > 1)
@@ -75,7 +74,7 @@ public class Validation
 
         if (d <= 0 || d > 1)
         {   
-            System.out.println("Please input a valid product discount which is between 0 to 1."); 
+            System.out.println("Please input a valid product discount which is between 0(not include) to 1(include)."); 
             return false;
         }
         else
@@ -337,36 +336,60 @@ public class Validation
             return false;             
         }
     }
+    
+    public boolean validateProductPrice(String price)
+    {
+        price = price.trim();
+        if (price.length() == 0)
+        {
+            System.out.println("No price was entered");
+            return false;
+        }
+        else if (price.matches("^[0-9]+$") || price.matches("^[0-9]+.[0-9]*$"))
+        {
+            if (Double.valueOf(price) > 0)
+                return true;
+            else
+            {
+                System.out.println("Price should be a number larger than 0");
+                return false;
+            }
+        }
+        else
+        {
+            System.out.println("Price should be a number larger than 0");
+            return false;
+        }
+    }
 
-    // public boolean validateAmount(String amount)
-    // {
-        // amount = amount.trim();
-        // if (amount.length() == 0)
-        // {
-            // System.out.println("No amount was entered");
-            // return false;
-        // }
-        // else if (amount.matches("^[0-9]+$") || amount.matches("^[0-9]*.[0-9]*$"))
-        // {
-            // //double a = Double.valueOf(amount);
-            // if (Double.valueOf(amount) > 0)
-                // return true;
-            // else
-            // {
-                // System.out.println("Amount should be a number larger than 0");
-                // return false;
-            // }
-        // }
-        // else
-        // {
-            // System.out.println("Amount should be a number larger than 0");
-            // return false;
-        // }
-    // }
+    public boolean validateAmount(String amount)
+    {
+        amount = amount.trim();
+        if (amount.length() == 0)
+        {
+            System.out.println("No amount was entered");
+            return false;
+        }
+        else if (amount.matches("^[0-9]+$") || amount.matches("^[0-9]+.[0-9]*$"))
+        {
+            if (Double.valueOf(amount) > 0)
+                return true;
+            else
+            {
+                System.out.println("Amount should be a number larger than 0");
+                return false;
+            }
+        }
+        else
+        {
+            System.out.println("Amount should be a number larger than 0");
+            return false;
+        }
+    }
     
     public boolean validateYN(String option)
     {
-        option = option.trim();
+        option = option.toUpperCase().trim();
         if (option.equals("Y") || option.equals("N"))
             return true;
         else

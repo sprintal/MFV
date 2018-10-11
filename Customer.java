@@ -10,8 +10,8 @@ public class Customer extends User
     private String address;
     private String phone;
     private boolean registerCondition;
-    private Cart cart;
-    private ArrayList<Transaction> transactionList;
+    //private Cart cart;
+    //private ArrayList<Transaction> transactionList;
     /**
      * Constructor for objects of class Customer
      */
@@ -21,8 +21,8 @@ public class Customer extends User
         address = "";
         phone = "";
         registerCondition = true;
-        cart = new Cart();
-        transactionList = new ArrayList<Transaction>();
+        //cart = new Cart();
+        //transactionList = new ArrayList<Transaction>();
     }
 
     public Customer(String name,String id,String email,String password,String address,String phone,boolean condition)
@@ -31,8 +31,8 @@ public class Customer extends User
         this.address = address;
         this.phone = phone;
         registerCondition = condition;
-        cart = new Cart();
-        transactionList = new ArrayList<Transaction>();
+        //cart = new Cart();
+        //transactionList = new ArrayList<Transaction>();
     }
 
     public void setRegisterCondition(boolean condition)
@@ -65,25 +65,34 @@ public class Customer extends User
         return phone;
     }
 
+    /*
     public Cart getCart()
     {
-        return cart;
+    return cart;
     }
 
     public void setCart(Cart newCart)
     {
-        cart = newCart;
+    cart = newCart;
     }
 
     public ArrayList<Transaction> getTransactionList()
     {
-        return transactionList;
+    return transactionList;
     }
 
     public void setTransactionList(ArrayList<Transaction> newTransactionList)
     {
-        transactionList = newTransactionList;
+    transactionList = newTransactionList;
     }
+
+    public void displayTransaction()
+    {
+    int size = transactionList.size();
+    for (int i = 0;i < size;i++)
+    transactionList.get(i).displayTransaction();
+    }
+     */
 
     public void displayCustomer()
     {
@@ -93,18 +102,6 @@ public class Customer extends User
         System.out.println("Email: " + getEmail());
         System.out.println("Address: " + address);
         System.out.println("---------------------------------------------------------------");
-    }
-    
-    public void displayTransaction()
-    {
-        int size = transactionList.size();
-        for (int i = 0;i < size;i++)
-            transactionList.get(i).displayTransaction();
-    }
-    
-    public void displayCart()
-    {
-        cart.displayCart();
     }
     
     public String getDetail()

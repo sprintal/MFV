@@ -23,39 +23,6 @@ public class Menu
         System.out.println("Enjoy your shopping time!");
     }
 
-    /**
-    public char editAmount()
-    {
-    System.out.println("\u000c");
-    System.out.println("Please Choose Inventory Option: ");
-    System.out.println("kg Enter A");
-    System.out.println("How Many Enter B");
-    System.out.println("Exit Enter \"X\"");
-    return getChoice('B');
-    }
-
-    public char editSellingOptionKg()
-    {
-    System.out.println("\u000c");
-    System.out.println("Please Choose Selling Option: ");
-    System.out.println("kg Enter A");
-    System.out.println("Bag Enter B");
-    System.out.println("Bunch Enter C");
-    System.out.println("Exit Enter \"X\"");
-    return getChoice('C');
-    }
-
-    public char editSellingOptionWhole()
-    {
-    System.out.println("\u000c");
-    System.out.println("Please Choose Selling Option: ");
-    System.out.println("Whole Enter A");
-    System.out.println("Half Enter B");
-    System.out.println("Exit Enter \"X\"");
-    return getChoice('B');
-    }
-     **/
-
     public void exitPage()
     {
         System.out.println("Thanks for using Monash Fruit and Vegetable system.");
@@ -72,6 +39,31 @@ public class Menu
         return getChoice('C');
     }
 
+    public char inventoryUnit()
+    {
+        System.out.println("Please choose inventory unit:");
+        System.out.println("Inventory Unit by weight enter \"A\"");
+        System.out.println("Inventory Unit by amount enter \"B\"");
+        return getChoiceWithoutExit('B');
+    }
+
+    public char sellingOptionByAmount()
+    {
+        System.out.println("Please choose selling opion by amount: ");
+        System.out.println("Sell by whole enter \"A\"");
+        System.out.println("Sell by half enter \"B\"");
+        return getChoiceWithoutExit('B');
+    }
+
+    public char sellingOptionByWeight()
+    {
+        System.out.println("Please choose selling opion by weight: ");
+        System.out.println("Sell by kg enter \"A\"");
+        System.out.println("Sell by buntch enter \"B\"");
+        System.out.println("Sell by bag enter \"C\"");
+        return getChoiceWithoutExit('C');
+    }
+
     public char customerMenu()
     {
         System.out.println("\u000c");
@@ -79,7 +71,7 @@ public class Menu
         System.out.println("Delete product from cart enter \"B\"");
         System.out.println("Purchase product enter \"C\"");
         System.out.println("View product enter \"D\"");
-        System.out.println("Exchange and refund enter \"E\"");
+        System.out.println("View cart enter \"E\"");
         System.out.println("Search product enter \"F\"");
         System.out.println("View transcation enter \"G\"");
         System.out.println("Change personal information enter \"H\"");
@@ -130,24 +122,12 @@ public class Menu
     {
         System.out.println("\u000c");
         System.out.println("Change name enter \"A\"");
-        System.out.println("Change emali enter \"B\"");
+        System.out.println("Change email enter \"B\"");
         System.out.println("Change password enter \"C\"");
         System.out.println("Exist enter \"X\"");
         return getChoice('C');
     }
 
-    /*
-    public char searchProductMenu()
-    {
-    System.out.println("\u000c");
-    System.out.println("View all products \"A\"");
-    System.out.println("View products by cateloge \"B\"");
-    System.out.println("View products by price \"C\"");
-    return getChoice('C');
-    }
-     */
-
-     
     public char searchProductMenu()
     {
         System.out.println("\u000c");
@@ -158,7 +138,7 @@ public class Menu
         System.out.println("Exit Enter \"X\"");
         return getChoice('D');
     }
-    
+
     public char getChoice(char endOption)
     {
         Scanner console = new Scanner(System.in);
@@ -166,6 +146,19 @@ public class Menu
         while (!(option.length() == 1 && ((option.charAt(0) >= 'A' && option.charAt(0) <= endOption) || option.charAt(0) == 'X')))
         {
             System.out.println("Input invalid. Please choose A..." + endOption + " or X.");
+            option = console.nextLine().toUpperCase().trim();
+        }
+
+        return option.charAt(0);
+    }
+
+    public char getChoiceWithoutExit(char endOption)
+    {
+        Scanner console = new Scanner(System.in);
+        String option = console.nextLine().toUpperCase().trim();
+        while (!(option.length() == 1 && ((option.charAt(0) >= 'A' && option.charAt(0) <= endOption))))
+        {
+            System.out.println("Input invalid. Please choose A..." + endOption);
             option = console.nextLine().toUpperCase().trim();
         }
 
@@ -182,16 +175,5 @@ public class Menu
         System.out.println("Change address enter \"E\"");
         System.out.println("Exist enter \"X\"");
         return getChoice('E');
-    }
-    
-    public char searchByDiscountMenu()
-    {
-        System.out.println("\u000c");
-        System.out.println("Please choose discount range option");
-        System.out.println("Lower than enter \"A\"");
-        System.out.println("Higher than enter \"B\"");
-        System.out.println("Between enter \"C\"");
-        System.out.println("Exit enter \"X\"");
-        return getChoice('C');
     }
 }
