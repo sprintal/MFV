@@ -10,6 +10,7 @@ public class Controller
 {
     private UserController userController;
     private ProductController productController;
+    private TransactionController transactionController;
     private Cart cart;
     /**
      * Constructor for objects of class NewController
@@ -18,6 +19,7 @@ public class Controller
     {
         userController = new UserController();
         productController = new ProductController();
+        transactionController = new TransactionController();
         cart = new Cart();
     }
 
@@ -77,23 +79,75 @@ public class Controller
         {
             case 'A':addProductToCart();
             customerMenu(index);break;
-            case 'B':deleteProductFromCart();break;
-            //case 'C':purchaseProduct(index);break;
+            case 'B':deleteProductFromCart(); customerMenu(index); break;
+            case 'C':purchaseProduct(index);break;
             case 'D':productController.viewProduct();
             customerMenu(index);break;
             case 'E':cart.displayCart();
             customerMenu(index);break;
             case 'F':searchProduct();
             customerMenu(index);break;
-            //case 'G':customerViewTransaction(index);break;
-            case 'H':changeCustomerInformation(index);break;
+            case 'G':customerViewTransaction(index);break;
+            case 'H':changeCustomerInformation(index); customerMenu(index); break;
             case 'I':userController.ungister(index);break;
-            //case 'X':returnProduct(index);
-            //         mainMenu();break;
+            case 'X':clearCart(index);
+                     mainMenu();break;
             default:break;
         }
     }
- 
+    
+    private void clearCart(int index)
+    {
+        for (int i = 0; i < cart.getPurchaseList().size(); i++)
+        {
+            returnToProduct(i);
+        }
+        cart = new Cart();
+    }
+    
+    private void customerViewTransaction(int index)
+    {
+        Scanner console = new Scanner(System.in);
+        String userEmail = userController.getCustomerList().get(index).getEmail();
+        transactionController.customerViewTransaction(userEmail);
+        System.out.println("Please press enter to continue! ");
+        console.nextLine();
+        customerMenu(index);
+    }
+    
+    private void purchaseProduct(int index)
+    {
+        Scanner console = new Scanner(System.in);
+        ReadInput read = new ReadInput();
+        String userEmail = userController.getCustomerList().get(index).getEmail();
+        System.out.println("\u000c");
+        if (cart.getPurchaseList().size() == 0)
+        {
+            System.out.println("There is no item in cart, please add some products in cart and try again!");
+            System.out.println("Please press enter to continue! ");
+            console.nextLine();
+            customerMenu(index);
+        }
+        else
+        {
+            cart.displayCart();
+            System.out.println("Please confirm the above cart detail, do you want to proceed the purchase?(Y/N)");
+            String option = read.readYNOption();
+            if (option.trim().toLowerCase().equals("y"))
+            {
+                System.out.println("\u000c");
+                System.out.println("Payment successful!");
+                System.out.println("System has generated your transaction, detail shown below: ");
+                transactionController.generateTransaction(userEmail, cart.getPurchaseList(), cart.caculateTotalPrice());
+                cart = new Cart();
+                System.out.println("Please press enter to continue! ");
+                console.nextLine();
+                customerMenu(index);
+            }
+            else
+                customerMenu(index);
+        }
+    }
 
     private void deleteProductFromCart()
     {
@@ -101,7 +155,33 @@ public class Controller
         cart.displayCart();
         System.out.println("Please choose the item to delete!");
         int index = chooseOption(cart.getPurchaseList().size()) - 1;
+        returnToProduct(index);
         cart.removeFromCart(index);
+    }
+    
+    private void returnToProduct(int index)
+    {
+        String productId = cart.getPurchaseList().get(index)[0];
+        String sellingOption = cart.getPurchaseList().get(index)[3];
+        double amount = Double.parseDouble(cart.getPurchaseList().get(index)[2]);
+        for (int i = 0; i < productController.getProductList().size(); i++)
+        {
+            if (productController.getProductList().get(i).getId().equals(productId))
+            {
+                for (int j = 0; j < productController.getProductList().get(i).getSellingOptionList().size(); j++)
+                {
+                    if (productController.getProductList().get(i).getSellingOptionList().get(j)[0].equals(sellingOption))
+                    {
+                        double rate = Double.parseDouble(productController.getProductList().get(i).getSellingOptionList().get(j)[1]);
+                        double totalAmount = productController.getProductList().get(i).getAmount();
+                        totalAmount += rate * amount;
+                        productController.getProductList().get(i).setAmount(totalAmount);
+                        break;
+                    }
+                }
+                break;
+            }
+        }
     }
     
     private void addProductToCart()
@@ -119,15 +199,17 @@ public class Controller
             String optionName = productController.getProductList().get(productIndex).getSellingOption(option - 1)[0];
             String rate = productController.getProductList().get(productIndex).getSellingOption(option - 1)[1];
             double amount = chooseAmount(productIndex,rate);
-            productController.getProductList().get(productIndex).setAmount(productController.getProductList().get(productIndex).getAmount() - amount);
+            //productController.getProductList().get(productIndex).setAmount(productController.getProductList().get(productIndex).getAmount() - amount);
             double discount = productController.getProductList().get(productIndex).getDiscount();
             String price = productController.getProductList().get(productIndex).getSellingOption(option - 1)[2];
-            price = String.valueOf(discount * Double.parseDouble(price));
+            price = String.valueOf(discount * Double.parseDouble(price) * amount);
             cart.addToCart(id,name,String.valueOf(amount),optionName,price,rate);
+            System.out.println("Item added into cart!");
+            double totalAmount = productController.getProductList().get(productIndex).getAmount();
+            productController.getProductList().get(productIndex).setAmount(totalAmount - amount * Double.parseDouble(rate));
         }
         else
             System.out.println("Product not found,please view product to check product id!");
-        System.out.println("Item added into cart!");
         System.out.println("Please press enter to continue! ");
         console.nextLine();
     }
@@ -137,7 +219,7 @@ public class Controller
         ReadInput read = new ReadInput();
         double amount = read.readProductAmount();
         double amountRate = Double.parseDouble(rate);
-        while(amount > productController.getProductList().get(index).getAmount() * amountRate)
+        while(amount * amountRate > productController.getProductList().get(index).getAmount())
         {
             System.out.println("The amount in stock is " + productController.getProductList().get(index).getAmount());
             System.out.println("Amount higher than in stock,please enter again!");
@@ -146,7 +228,7 @@ public class Controller
         return amount;
     }
     
-    public int chooseOption(int size)
+    private int chooseOption(int size)
     {
         Scanner console = new Scanner(System.in);
         String option = console.nextLine().trim();
@@ -154,7 +236,7 @@ public class Controller
         char cr = str.charAt(0);
         while (!(option.length() == 1 && ((option.charAt(0) >= '1' && option.charAt(0) <= cr))))
         {
-            System.out.println("Input invalid. Please choose 1..." + size);
+            System.out.println("Input invalid. Please choose 1..." + size + ":");
             option = console.nextLine().trim();
         }
         return Integer.parseInt(String.valueOf(option.charAt(0)));
@@ -162,7 +244,9 @@ public class Controller
 
     private void changeCustomerInformation(int index)
     {
+        System.out.println("\u000c");
         Menu menu = new Menu();
+        userController.getCustomerList().get(index).displayCustomer();
         ReadInput read = new ReadInput();
         char option = menu.changeCustomerInformation();
         switch(option)
@@ -226,10 +310,19 @@ public class Controller
             System.out.println("Please press enter to continue!");
             console.nextLine();
             ownerMenu();break;
-            //case 'G':ownerViewTransaction();break;
+            case 'G':ownerViewTransaction();break;
             case 'H':changeOwnerInformation();break;
             case 'X':mainMenu();break;
             default:break;
+        }
+    }
+    
+    private void ownerViewTransaction()
+    {
+        for (int index = 0; index < transactionController.getTransactionList().size(); index++)
+        {
+            transactionController.getTransactionList().get(index).displayTransaction();
+            System.out.println("------------------------------------------------------------------------------------");
         }
     }
 
@@ -332,7 +425,7 @@ public class Controller
         {
             do 
             {
-                char option = menu.sellingOptionByWeight();
+                char option = menu.sellingOptionByAmount();
                 switch(option)
                 {
                     case 'A':sellingOption.add(new String[]{"whole","1",read.readProductPrice()});break;
@@ -403,7 +496,7 @@ public class Controller
         userController.setUserList(ownerDetails,customerDetails);
         ArrayList<String> productDetails = readDetails("productDetails.txt");
         productController.initialProductList(productDetails);        
-        //detailList = readDetails("transaction.txt");
+        ArrayList<String> transactionDetails = readDetails("transactions.txt");
         //size = detailList.size();
     }
 

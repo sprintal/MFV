@@ -69,7 +69,7 @@ public class Menu
         System.out.println("\u000c");
         System.out.println("Add product to cart enter \"A\"");
         System.out.println("Delete product from cart enter \"B\"");
-        System.out.println("Purchase product enter \"C\"");
+        System.out.println("Check out enter \"C\"");
         System.out.println("View product enter \"D\"");
         System.out.println("View cart enter \"E\"");
         System.out.println("Search product enter \"F\"");
@@ -167,9 +167,9 @@ public class Menu
 
     public char changeCustomerInformation()
     {
-        System.out.println("\u000c");
+        //System.out.println("\u000c");
         System.out.println("Change name enter \"A\"");
-        System.out.println("Change emali enter \"B\"");
+        System.out.println("Change email enter \"B\"");
         System.out.println("Change password enter \"C\"");
         System.out.println("Change phone enter \"D\"");
         System.out.println("Change address enter \"E\"");

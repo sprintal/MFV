@@ -13,7 +13,7 @@ public class Cart
         purchaseList = newPurchaseList;
     }
 
-    public ArrayList getPurchaseList()
+    public ArrayList<String[]> getPurchaseList()
     {
         return purchaseList;
     }
@@ -62,8 +62,8 @@ public class Cart
         for (int index = 0; index < purchaseList.size(); index++)
         {
             int number = index + 1;
-            System.out.println(number + ". " + purchaseList.get(index)[2] + " " + purchaseList.get(index)[3] + 
-            purchaseList.get(index)[1] + " for AU$" + purchaseList.get(index)[4] + " per " +purchaseList.get(index)[3]);
+            System.out.println(number + ". " + purchaseList.get(index)[2] + " " + purchaseList.get(index)[3] + " " +  
+            purchaseList.get(index)[1] + " for AU$" + purchaseList.get(index)[4] /*+ " per " +purchaseList.get(index)[3]*/);
             System.out.println("---------------------------------------------------------------------------------------");
         }
         Scanner console = new Scanner(System.in);

@@ -227,14 +227,14 @@ public class ProductController
         ArrayList<String[]> option = productList.get(index).getSellingOptionList();
         int size = option.size();
         double discount = productList.get(index).getDiscount();
-        System.out.println("The discount is " + discount);
+        System.out.println(productList.get(index).getName() + ", The discount is " + discount);
         for(int i = 0;i < size;i++)
         {
             int optionIndex = i + 1;
-            System.out.println("Selling option : " + optionIndex);
+            System.out.println("Selling option " + optionIndex);
             String[] sellingOption = option.get(i);
             String discountPrice = String.format("%.2f", Double.valueOf(sellingOption[2]) * discount);
-            System.out.println("Original price: AU$" + Double.valueOf(sellingOption[2]) + " Price after discount: AU$" + 
+            System.out.println("Original price: AU$" + Double.valueOf(sellingOption[2]) + ", Price after discount: AU$" + 
                                 discountPrice + " for 1 " + sellingOption[0] + "(" + sellingOption[1] + " kg)");
         }
         return size;

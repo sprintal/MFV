@@ -1,6 +1,8 @@
 import java.util.*;
+import java.text.SimpleDateFormat;
 public class Transaction
 {
+    private String userEmail;
     private String transactionId;
     private ArrayList<String[]> purchaseList;
     private Calendar date;
@@ -8,14 +10,16 @@ public class Transaction
     
     public Transaction()
     {
+        userEmail = "";
         transactionId = "";
         purchaseList = new ArrayList<String[]>();
         date = Calendar.getInstance();
         totalPrice = 0;
     }
     
-    public Transaction(String newTransactionId, ArrayList<String[]> newPurchaseList, Calendar newDate, double newTotalPrice)
+    public Transaction(String newUserEmail, String newTransactionId, ArrayList<String[]> newPurchaseList, Calendar newDate, double newTotalPrice)
     {
+        userEmail = newUserEmail;
         transactionId = newTransactionId;
         purchaseList = newPurchaseList;
         date = newDate;
@@ -62,9 +66,21 @@ public class Transaction
         totalPrice = newTotalPrice;
     }
     
+    public String getUserEmail()
+    {
+        return userEmail;
+    }
+    
+    public void setUserEmail(String newUserEmail)
+    {
+        userEmail = newUserEmail;
+    }
+    
     public void displayTransaction()
     {
-        System.out.println("Transaction id: " + transactionId + ", order time: " + date.get(Calendar.HOUR_OF_DAY) + ":" + date.get(Calendar.MINUTE) + ":" + date.get(Calendar.SECOND) + ", " + date.get(Calendar.DATE) + "/" + date.get(Calendar.MONTH) + "/" + date.get(Calendar.YEAR) + ", total price: AU$" + totalPrice);
+        SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss dd-MM-yyyy");
+        System.out.println("Transaction id: " + transactionId);
+        System.out.println("Buyer: " + userEmail + ", order time: " + df.format(date.getTime()) + ", total price: AU$" + totalPrice);
         System.out.println("There are " + purchaseList.size() + " items in the transaction.");
         for (int index = 0; index < purchaseList.size(); index++)
         {

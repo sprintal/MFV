@@ -49,7 +49,6 @@ public class ReadInput
         String price = console.nextLine().trim();
         while (!valide.validateProductPrice(price))
             price = console.nextLine().trim();
-
         return price;
     }
 
@@ -105,7 +104,7 @@ public class ReadInput
     {
         Scanner console = new Scanner(System.in);
         Validation valide = new Validation();
-        System.out.println("Please enter product exchange amount(1 " + unit + " equals to how many kg):");
+        System.out.println("Please enter product exchange amount(1 " + unit + " equals to how many inventory unit):");
         String amount = console.nextLine().trim();
         while (!valide.validateProductAmount(amount))
             amount = console.nextLine().trim();

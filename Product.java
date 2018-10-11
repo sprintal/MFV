@@ -192,7 +192,7 @@ public class Product
         {
             String[] sellingOption = getSellingOption(i);
             String discountPrice = String.format("%.2f", Double.valueOf(sellingOption[2]) * discount);
-            System.out.println("Original price: AU$" + Double.valueOf(sellingOption[2]) + " Price after discount: AU$" + 
+            System.out.println("Original price: AU$" + Double.valueOf(sellingOption[2]) + ", Price after discount: AU$" + 
                                 discountPrice + " for 1 " + sellingOption[0] + "(" + sellingOption[1] + " kg)");
         }
         System.out.println(amount + inventoryOption + " in stoke");

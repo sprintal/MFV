@@ -88,7 +88,7 @@ public class UserController
         }
 
         if (!found)
-            System.out.println("No account \"" + email + "\", please register!");
+            System.out.println("Account \"" + email + "\" not found, please register!");
         else
         {
             index -= 1;            
@@ -120,7 +120,8 @@ public class UserController
             System.out.println("Owner email incorrect,please comfirm!");
         System.out.println("Please press enter to continue!");
         console.nextLine();
-
+        if (login == true)
+            System.out.println("Welcome " + ownerList.get(0).getName() + " !");
         return login;
     }
 
@@ -144,16 +145,13 @@ public class UserController
                     System.out.println("Please confirm your password!");
                 else
                 {
-                    System.out.println("At most try 3 times!");
+                    System.out.println("You can try at most 3 times!");
                     System.out.println("Please enter your password:");
                     password = console.nextLine();
                 }
             }
             inputTime++;
         }
-
-        if (verify == true)
-            System.out.println("Welcome " + ownerList.get(0).getName() + " !");
         return verify;
     }
 

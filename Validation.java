@@ -20,7 +20,7 @@ public class Validation
     {
         if (amount.length() == 0)
         {
-            System.out.println("No amount was entered");
+            System.out.println("No amount was entered. Please try again:");
             return false;
         }
         else if (amount.matches("^[0-9]+$") || amount.matches("^[0-9]*.[0-9]*$"))
@@ -29,13 +29,13 @@ public class Validation
                 return true;
             else
             {
-                System.out.println("Amount should be a number larger than 0");
+                System.out.println("Amount should be a number larger than 0. Please try again:");
                 return false;
             }
         }
         else
         {
-            System.out.println("Amount should be a number larger than 0");
+            System.out.println("Amount should be a number larger than 0. Please try again:");
             return false;
         }
     }
@@ -46,7 +46,7 @@ public class Validation
         productDiscount = productDiscount.trim();
         if (productDiscount.length() == 0)
         {   
-            System.out.println("No discount was entered.");
+            System.out.println("No discount was entered. Please try again:");
             return false;
         }
 
@@ -56,7 +56,7 @@ public class Validation
             {
                 if((productDiscount.charAt(i)) != ('.'))
                 {
-                    System.out.println("Please input a valid product discount in digits."); 
+                    System.out.println("Please input a valid product discount in digits:"); 
                     return false;
                 }
                 else if ((productDiscount.charAt(i)) == ('.'))
@@ -66,7 +66,7 @@ public class Validation
 
         if (a > 1)
         {
-            System.out.println("There should be only one decimal point.");
+            System.out.println("There should be only one decimal point. Please try again:");
             return false;
         }
 
@@ -74,7 +74,7 @@ public class Validation
 
         if (d <= 0 || d > 1)
         {   
-            System.out.println("Please input a valid product discount which is between 0(not include) to 1(include)."); 
+            System.out.println("Please input a valid product discount which is between 0(exclude) to 1(include):"); 
             return false;
         }
         else
@@ -86,7 +86,7 @@ public class Validation
         productShelfLife = productShelfLife.trim();
         if (productShelfLife.length() == 0)
         {
-            System.out.println("No shelf life was entered.");
+            System.out.println("No shelf life was entered. Please try again:");
             return false;
         }
 
@@ -94,7 +94,7 @@ public class Validation
         {
             if (!Character.isDigit(productShelfLife.charAt(i)))
             {
-                System.out.println("Please input a valid product shelf life in digits."); 
+                System.out.println("Please input a valid product shelf life in digits:"); 
                 return false;
             }
             else 
@@ -105,7 +105,7 @@ public class Validation
 
         if (i <= 0 )
         {   
-            System.out.println("Please input a valid product shelf life which is higer than 0."); 
+            System.out.println("Please input a valid product shelf life which is higer than 0:"); 
             return false;
         }
         else
@@ -119,14 +119,14 @@ public class Validation
         if (productOrigin.length() < 2 ||
         productOrigin.length() > 20)
         {
-            System.out.println("Please input a valid product origin.");            
-            System.out.println("The length of product origin should be between 2 to 20.");
+            //System.out.println("Please input a valid product origin.");            
+            System.out.println("The length of product origin should be between 2 to 20. Please try again:");
             return false;
         }
         else if (productOrigin.matches(".*[a-zA-Z]{2,}.*")==false)
         {
-            System.out.println("Please input a valid product origin.");            
-            System.out.println("There should be at least two adjacent letters in the product origin.");
+            //System.out.println("Please input a valid product origin.");            
+            System.out.println("There should be at least two adjacent letters in the product origin. Please try again:");
             return false;
         }
         else
@@ -148,25 +148,25 @@ public class Validation
 
         if (alphabetNumber + hyphenNumber != userName.length())
         {
-            System.out.println("Error!Player name can contain only alphabetical characters and hyphen!");
+            System.out.println("Error!Player name can contain only alphabetical characters and hyphen. Please try again:");
             return false;
         }
 
         if (alphabetNumber < 2)
         {
-            System.out.println("Error!At least two alphabetical characters should be used!");
+            System.out.println("Error!At least two alphabetical characters should be used. Please try again:");
             return false;
         }
 
         if (alphabetNumber + hyphenNumber > 20)
         {
-            System.out.println("Error!Name length can't be longer than 20!");
+            System.out.println("Error!Name length can't be longer than 20. Please try again:");
             return false;            
         }
 
         if (hyphenNumber > 1 || userName.charAt(0) == '-' || userName.charAt(userName.length() - 1) == '-')
         {
-            System.out.println("Error!Hyphen can't be at begin or end of the name!At most one hyphen can be used!");
+            System.out.println("Error!Hyphen can't be at begin or end of the name!At most one hyphen can be used. Please try again:");
             return false;
         }
 
@@ -178,7 +178,7 @@ public class Validation
         email = email.trim();
         if (email.length() == 0)
         {
-            System.out.println("No email was entered");
+            System.out.println("No email was entered. Please try again:");
             return false;
         }
         String regex = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
@@ -186,8 +186,7 @@ public class Validation
         Matcher m = p.matcher(email);
         if (!m.matches())
         {
-            System.out.println("Please enter the correct email format");
-            System.out.println("Example: someone@somesite.com");
+            System.out.println("Please enter the correct email format(Example: someone@somesite.com):");
             return false;
         }
 
@@ -199,17 +198,17 @@ public class Validation
         address = address.trim();
         if(address.length() == 0)
         {
-            System.out.println("No address was entered");
+            System.out.println("No address was entered. Please try again:");
             return false;
         }
         else if (address.length() >= 50)
         {
-            System.out.println("The length of address should less than 50");
+            System.out.println("The length of address should less than 50. Please try again:");
             return false;
         }
         else if (address.matches(".*[a-zA-Z]{2,}.*") == false)
         {
-            System.out.println("There should be at least two adjacent letters in address.");
+            System.out.println("There should be at least two adjacent letters in address. Please try again:");
 
             return false;
         }
@@ -222,22 +221,22 @@ public class Validation
         phone = phone.trim();
         if (phone.length() == 0)
         {
-            System.out.println("No phone was entered");
+            System.out.println("No phone was entered. Please try again:");
             return false;
         }
         else if (phone.length() >= 20)
         {
-            System.out.println("The length of phone should less than 20");
+            System.out.println("The length of phone should less than 20. Please try again:");
             return false;
         }
         else if(phone.replaceAll("[_\\W]","").length() != phone.length())
         {
-            System.out.println("The phone number cannot contain special characters");
+            System.out.println("The phone number cannot contain special characters. Please try again:");
             return false;
         }
         else if (phone.matches(".*[a-zA-Z]{1,}.*"))
         {
-            System.out.println("The phone number cannot contain letters");
+            System.out.println("The phone number cannot contain letters. Please try again:");
             return false;
         }
 
@@ -251,7 +250,7 @@ public class Validation
             return true;
         else
         {
-            System.out.println("Please enter fruit or vegetable");
+            System.out.println("Please enter fruit or vegetable:");
             return false;
         }
     }
@@ -261,18 +260,18 @@ public class Validation
         productName = productName.trim();
         if(productName.length() == 0)
         {
-            System.out.println("No product name was entered");
+            System.out.println("No product name was entered. Please try again:");
             return false;
         }
         else if (productName.length() >= 15)
         {
-            System.out.println("The length of product name should between 1 to 15");
+            System.out.println("The length of product name should between 1 to 15. Please try again:");
             return false;
         }
         else if (productName.matches(".*[a-zA-Z]{2,}.*") == false)
         {
-            System.out.println("Please enter the correct product name");
-            System.out.println("There should be at least two adjacent letters in product name.");
+            //System.out.println("Please enter the correct product name");
+            System.out.println("There should be at least two adjacent letters in product name. Please try again:");
             return false;
         }
 
@@ -284,8 +283,8 @@ public class Validation
         password = password.trim();
         if (password.length() < 8 || password.length() > 20)
         {
-            System.out.println("Please input a valid password.");            
-            System.out.println("The length of password should be between 8 to 20."); 
+            //System.out.println("Please input a valid password.");            
+            System.out.println("The length of password should be between 8 to 20. Please try again:"); 
             return false;
         }
 
@@ -295,8 +294,8 @@ public class Validation
             index++;
         else
         {
-            System.out.println("Please input a valid password.");            
-            System.out.println("There should be at least one lowercase in the password.");
+            //System.out.println("Please input a valid password.");            
+            System.out.println("There should be at least one lowercase in the password. Please try again:");
             return false;
         }
 
@@ -304,8 +303,8 @@ public class Validation
             index++;
         else
         {
-            System.out.println("Please input a valid password.");            
-            System.out.println("There should be at least one uppercase in the password.");
+            //System.out.println("Please input a valid password:");            
+            System.out.println("There should be at least one uppercase in the password. Please try again:");
             return false;
         }
 
@@ -313,8 +312,8 @@ public class Validation
             index++;
         else
         {
-            System.out.println("Please input a valid password.");            
-            System.out.println("There should be at least one digit in the password.");
+            //System.out.println("Please input a valid password:");            
+            System.out.println("There should be at least one digit in the password. Please try again:");
             return false;
         }
 
@@ -322,8 +321,8 @@ public class Validation
             index++;
         else
         {
-            System.out.println("Please input a valid password.");            
-            System.out.println("There should be at least one special character in the password.");             
+            //System.out.println("Please input a valid password:");            
+            System.out.println("There should be at least one special character in the password. Please try again:");             
             return false;
         }
 
@@ -331,8 +330,8 @@ public class Validation
             return true;
         else
         {    
-            System.out.println("Please input a valid password."); 
-            System.out.println("There should be at least one special character, one digit, one uppercase and one lowercase in the password.");
+            //System.out.println("Please input a valid password:"); 
+            System.out.println("There should be at least one special character, one digit, one uppercase and one lowercase in the password. Please try again:");
             return false;             
         }
     }
@@ -342,7 +341,7 @@ public class Validation
         price = price.trim();
         if (price.length() == 0)
         {
-            System.out.println("No price was entered");
+            System.out.println("No price was entered. Please try again:");
             return false;
         }
         else if (price.matches("^[0-9]+$") || price.matches("^[0-9]+.[0-9]*$"))
@@ -351,13 +350,13 @@ public class Validation
                 return true;
             else
             {
-                System.out.println("Price should be a number larger than 0");
+                System.out.println("Price should be a number larger than 0. Please try again:");
                 return false;
             }
         }
         else
         {
-            System.out.println("Price should be a number larger than 0");
+            System.out.println("Price should be a number larger than 0. Please try again:");
             return false;
         }
     }
@@ -367,7 +366,7 @@ public class Validation
         amount = amount.trim();
         if (amount.length() == 0)
         {
-            System.out.println("No amount was entered");
+            System.out.println("No amount was entered. Please try again:");
             return false;
         }
         else if (amount.matches("^[0-9]+$") || amount.matches("^[0-9]+.[0-9]*$"))
@@ -376,13 +375,13 @@ public class Validation
                 return true;
             else
             {
-                System.out.println("Amount should be a number larger than 0");
+                System.out.println("Amount should be a number larger than 0. Please try again:");
                 return false;
             }
         }
         else
         {
-            System.out.println("Amount should be a number larger than 0");
+            System.out.println("Amount should be a number larger than 0. Please try again:");
             return false;
         }
     }
@@ -394,7 +393,7 @@ public class Validation
             return true;
         else
         {
-            System.out.println("You can only choose \"y\" or \"n\"");
+            System.out.println("You can only choose \"y\" or \"n\". Please try again:");
             return false;
         }
     }
