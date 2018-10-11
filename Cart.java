@@ -66,8 +66,8 @@ public class Cart
             purchaseList.get(index)[1] + " for AU$" + purchaseList.get(index)[4] /*+ " per " +purchaseList.get(index)[3]*/);
             System.out.println("---------------------------------------------------------------------------------------");
         }
-        Scanner console = new Scanner(System.in);
-        System.out.println("Please press enter to continue!");
-        console.nextLine();
+        // Scanner console = new Scanner(System.in);
+        // System.out.println("Please press enter to continue!");
+        // console.nextLine();
     }
 }

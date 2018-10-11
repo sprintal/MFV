@@ -76,15 +76,40 @@ public class Transaction
         userEmail = newUserEmail;
     }
     
+    private String calToStr()
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss dd/MM/yyyy");
+        String calStr = sdf.format(date.getTime());
+        return calStr;
+    }
+    
     public void displayTransaction()
     {
-        SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss dd-MM-yyyy");
+        String inventoryOption = new String();
+        SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss dd/MM/yyyy");
         System.out.println("Transaction id: " + transactionId);
         System.out.println("Buyer: " + userEmail + ", order time: " + df.format(date.getTime()) + ", total price: AU$" + totalPrice);
         System.out.println("There are " + purchaseList.size() + " items in the transaction.");
         for (int index = 0; index < purchaseList.size(); index++)
         {
-            System.out.println(index + 1 + ". " + purchaseList.get(index)[0] + ", " + purchaseList.get(index)[1] + purchaseList.get(index)[2] + " for AU$" + purchaseList.get(index)[3]);
+            if (purchaseList.get(index)[3].toUpperCase().equals("BAG") || purchaseList.get(index)[3].toUpperCase().equals("KG") ||
+                purchaseList.get(index)[3].toUpperCase().equals("BUNCH"))
+                inventoryOption = "kg";
+            else
+                inventoryOption = "wholes";
+            System.out.println(index + 1 + ". " + "Product ID: " + purchaseList.get(index)[0] + ", Product name: " + purchaseList.get(index)[1]);
+            System.out.println(purchaseList.get(index)[2] + " " + purchaseList.get(index)[3] + " for AU$" + purchaseList.get(index)[4] + "(" + purchaseList.get(index)[5] + " " + inventoryOption + ")");
         }
+    }
+    
+    public String getDetail()
+    {
+        String purchase = "";
+        int size = purchaseList.size();
+        for (int i = 0;i < size;i++)
+            purchase = purchase + "," + purchaseList.get(i)[0] + "," + purchaseList.get(i)[1] + "," + purchaseList.get(i)[2] + ","
+                       + purchaseList.get(i)[3] + "," + purchaseList.get(i)[4] + "," + purchaseList.get(i)[5];
+        String detail = userEmail + "," + transactionId + "," + calToStr() + "," + String.valueOf(totalPrice) + "," + purchase;
+        return detail;
     }
 }

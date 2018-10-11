@@ -75,11 +75,15 @@ public class UserController
     public int testCustomerLogin()
     {
         Scanner console = new Scanner(System.in);
-        System.out.println("Please enter you email:");
+        System.out.println("Please enter you email(Enter \"X\" to cancel):");
         String email = console.nextLine().trim();
         int size = customerList.size();
         boolean found = false;
         int index = 0;
+        if (email.equals("x") || email.equals("X"))
+        {
+            return -1;
+        }
         while(index < size && !found)
         {
             if (customerList.get(index).getEmail().equals(email))
@@ -88,12 +92,20 @@ public class UserController
         }
 
         if (!found)
+        {
             System.out.println("Account \"" + email + "\" not found, please register!");
+            System.out.println("Please press enter to continue!");
+            console.nextLine();
+        }
         else
         {
             index -= 1;            
             if (!customerList.get(index).getRegisterCondition())
+            {
                 System.out.println("Account \"" + email + "\" has been ungistered, please register a new account!");
+                System.out.println("Please press enter to continue!");
+                console.nextLine();
+            }
             else
             {
                 String storedPassword = customerList.get(index).getPassword();
@@ -101,39 +113,48 @@ public class UserController
                     return index;
             }
         }
-
+        
         return -1;
     } 
     
     public boolean testOwnerLogin()
     {
         Scanner console = new Scanner(System.in);
-        System.out.println("Please enter you email:");
-        String email = console.nextLine();
+        System.out.println("Please enter you email(Enter \"X\" to cancel):");
+        String email = console.nextLine().trim();
         boolean login = false;
-        if (ownerList.get(0).getEmail().equals(email))
+        if (email.equals("x") || email.equals("X"))
         {
-            String storedPassword = ownerList.get(0).getPassword();
-            login = verifyPassword(storedPassword);
+            return false;
         }
         else
-            System.out.println("Owner email incorrect,please comfirm!");
-        System.out.println("Please press enter to continue!");
-        console.nextLine();
-        if (login == true)
-            System.out.println("Welcome " + ownerList.get(0).getName() + " !");
+        {
+            if (ownerList.get(0).getEmail().equals(email))
+            {
+                String storedPassword = ownerList.get(0).getPassword();
+                login = verifyPassword(storedPassword);
+            }
+            else
+            {
+                System.out.println("Owner email incorrect,please comfirm!");
+                System.out.println("Please press enter to continue!");
+                console.nextLine();
+            }
+        }
         return login;
     }
 
     public boolean verifyPassword(String storedPassword)
     {
-        System.out.println("Please enter your password:");
+        System.out.println("Please enter your password(Enter \"X\" to cancel):");
         Scanner console = new Scanner(System.in);
         String password = console.nextLine();
         int inputTime = 1;
         boolean verify = false;
         while (inputTime <= 3 && !verify)
         {
+            if (password.equals("X") || password.equals("x"))
+                return false;
             if (password.equals(storedPassword))
                 verify = true;
 
@@ -146,7 +167,7 @@ public class UserController
                 else
                 {
                     System.out.println("You can try at most 3 times!");
-                    System.out.println("Please enter your password:");
+                    System.out.println("Please enter your password(Enter \"X\" to cancel):");
                     password = console.nextLine();
                 }
             }
@@ -192,13 +213,22 @@ public class UserController
         console.nextLine();
     }
 
-    public void changeCustomerEmail(int index,String email)
+    public boolean changeCustomerEmail(int index,String email)
     {
-        customerList.get(index).setEmail(email);
-        System.out.println("Email changed!");
-        System.out.println("Please press enter to continue!");
-        Scanner console = new Scanner(System.in);
-        console.nextLine();
+        if (ifEmailSame(email))
+        {
+            System.out.println("The inputted email already exist, please try another one.");
+            return false;
+        }
+        else
+        {
+            customerList.get(index).setEmail(email);
+            System.out.println("Email changed!");
+            System.out.println("Please press enter to continue!");
+            Scanner console = new Scanner(System.in);
+            console.nextLine();
+            return true;
+        }
     }
 
     public void changeCustomerPassword(int index,String password)
@@ -267,10 +297,7 @@ public class UserController
         int size = customerList.size();
         for(int i = 0;i < size;i++)
             if (customerList.get(i).getEmail().equals(email))
-            {
-                System.out.println("Account has been registered,login with this email or register with an new email!");
                 return true;
-            }
         return false;
     }
 

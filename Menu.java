@@ -31,20 +31,21 @@ public class Menu
 
     public char mainMenu()
     {
-        System.out.println("\u000c");
+        
         System.out.println("Administrator Login Enter \"A\"");
         System.out.println("Customer Login Enter \"B\"");
         System.out.println("Customer Register Enter \"C\"");
+        System.out.println("Enter System Enter \"D\"");
         System.out.println("Exit enter \"X\"");
-        return getChoice('C');
+        return getChoice('D');
     }
 
     public char inventoryUnit()
     {
-        System.out.println("Please choose inventory unit:");
+        System.out.println("Please choose inventory unit(Enter \"X\" to cancel):");
         System.out.println("Inventory Unit by weight enter \"A\"");
         System.out.println("Inventory Unit by amount enter \"B\"");
-        return getChoiceWithoutExit('B');
+        return getChoice('B');
     }
 
     public char sellingOptionByAmount()
@@ -66,7 +67,7 @@ public class Menu
 
     public char customerMenu()
     {
-        System.out.println("\u000c");
+        
         System.out.println("Add product to cart enter \"A\"");
         System.out.println("Delete product from cart enter \"B\"");
         System.out.println("Check out enter \"C\"");
@@ -74,15 +75,31 @@ public class Menu
         System.out.println("View cart enter \"E\"");
         System.out.println("Search product enter \"F\"");
         System.out.println("View transcation enter \"G\"");
-        System.out.println("Change personal information enter \"H\"");
+        System.out.println("View and change personal information enter \"H\"");
         System.out.println("Unregister enter \"I\"");
+        System.out.println("Exit enter \"X\"");
+        return getChoice('I');
+    }
+    
+    public char unloggedInMenu()
+    {
+        
+        System.out.println("Add product to cart enter \"A\"");
+        System.out.println("Delete product from cart enter \"B\"");
+        System.out.println("Check out enter \"C\"");
+        System.out.println("View product enter \"D\"");
+        System.out.println("View cart enter \"E\"");
+        System.out.println("Search product enter \"F\"");
+        System.out.println("Administrator Login Enter \"G\"");
+        System.out.println("Customer Login Enter \"H\"");
+        System.out.println("Customer Register Enter \"I\"");
         System.out.println("Exit enter \"X\"");
         return getChoice('I');
     }
 
     public char editProduct()
     {
-        System.out.println("\u000c");
+  
         System.out.println("Edit Product Name Enter \"A\"");
         System.out.println("Edit Selling Option Enter \"B\"");
         System.out.println("Edit Category Enter \"C\"");
@@ -96,7 +113,7 @@ public class Menu
 
     public char ownerMenu()
     {
-        System.out.println("\u000c");
+        
         System.out.println("Add product enter \"A\"");
         System.out.println("Delete product enter \"B\"");
         System.out.println("View product enter \"C\"");
@@ -104,7 +121,7 @@ public class Menu
         System.out.println("Search product enter \"E\"");
         System.out.println("View customer enter \"F\"");
         System.out.println("View transcation enter \"G\"");
-        System.out.println("Change personal information enter \"H\"");
+        System.out.println("View and change personal information enter \"H\"");
         System.out.println("Exit enter \"X\"");
         return getChoice('H');
     }
@@ -120,7 +137,7 @@ public class Menu
 
     public char changeOwnerInformation()
     {
-        System.out.println("\u000c");
+        
         System.out.println("Change name enter \"A\"");
         System.out.println("Change email enter \"B\"");
         System.out.println("Change password enter \"C\"");

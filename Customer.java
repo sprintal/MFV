@@ -60,7 +60,7 @@ public class Customer extends User
         phone = newPhone;
     }
 
-    public String getName()
+    public String getPhone()
     {
         return phone;
     }
@@ -106,7 +106,12 @@ public class Customer extends User
     
     public String getDetail()
     {
-        String detail = getName() + "," + getId() + "," + getEmail() + "," + getPassword() + "," + address + "," + phone;
+        String registerConditionString = "";
+        if (registerCondition == true)
+            registerConditionString = "1";
+        else
+            registerConditionString = "0";
+        String detail = getName() + "," + getId() + "," + getEmail() + "," + getPassword() + "," + address + "," + phone + "," + registerConditionString;
         return detail;
     }
 }

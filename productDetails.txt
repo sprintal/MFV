@@ -1,6 +1,6 @@
-F1,Big Apple,50.0,China,20,1.0,20/09/2018,kg,1,5,bag,5,23,bag,10,40
+F1,Big Apple,30.0,China,20,1.0,10/10/2018,kg,1,5,bag,5,23,bag,10,40
 F2,Green Apple,23.68,Australia,15,0.9,21/09/2018,kg,1,4.2
 V3,Potato,100.5,Australia,10,0.2,10/09/2018,whole,1,2,half,0.5,1.5
 V4,Tomato,20.25,New Zealand,30,0.85,27/09/2018,kg,1,10,bag,10,90
-V5,Asian Green,50.0,Japan,20,1.0,25/09/2018,bunch,3,5.5
+V5,Asian Green,44.0,Japan,20,1.0,25/09/2018,bunch,3,5.5
 -1

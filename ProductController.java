@@ -10,17 +10,20 @@ import java.util.*;
 public class ProductController
 {
     private ArrayList<Product> productList;
+    private ArrayList<Product> searchResult;
     /**
      * Constructor for objects of class ProductController
      */
     public ProductController()
     {
         productList = new ArrayList<Product>();
+        searchResult = new ArrayList<Product>();
     }
 
-    public ProductController(ArrayList<Product> productList)
+    public ProductController(ArrayList<Product> productList, ArrayList<Product> searchResult)
     {
         this.productList = productList;
+        this.searchResult = searchResult;
     }
 
     public ArrayList<Product> getProductList()
@@ -33,11 +36,24 @@ public class ProductController
         productList = newProductList;
     }
     
-    public void searchByOrigin()
+    public ArrayList<Product> getSearchResult()
     {
+        return searchResult;
+    }
+    
+    public void setSearchResult(ArrayList<Product> newSearchResult)
+    {
+        searchResult = newSearchResult;
+    }
+    
+    public int searchByOrigin()
+    {
+        searchResult = new ArrayList<Product>();
         Scanner console = new Scanner(System.in);
-        System.out.println("Please enter product origin: ");
+        System.out.println("Please enter product origin(Enter \"X\" to cancel): ");
         String origin = console.nextLine().trim();
+        if (origin.equals("x") || origin.equals("X"))
+            return -1;
         int count = 0;
         System.out.println("                                Search Result  ");
         System.out.println("------------------------------------------------------------------------------------");
@@ -45,17 +61,21 @@ public class ProductController
         {
             if (productList.get(i).getOrigin().toUpperCase().contains(origin.toUpperCase()))
             {
+                System.out.print(count + 1 +". ");
                 productList.get(i).displayProduct();
+                searchResult.add(productList.get(i));
                 count++;
             }
         }
         System.out.println("Total " + count + " results!");
-        System.out.println("Please press enter to continue!");
-        console.nextLine();
+        // System.out.println("Please press enter to continue!");
+        // console.nextLine();
+        return count;
     }
     
-    public void searchByDiscount(double minimumDiscount,double maxmumDiscount)
+    public int searchByDiscount(double minimumDiscount,double maxmumDiscount)
     {
+        searchResult = new ArrayList<Product>();
         Scanner console = new Scanner(System.in);
         System.out.println("                                Search Result  ");
         System.out.println("------------------------------------------------------------------------------------");
@@ -63,14 +83,17 @@ public class ProductController
         for (int index = 0; index < productList.size(); index++)
         {
             if (productList.get(index).getDiscount() <= maxmumDiscount && productList.get(index).getDiscount() >= minimumDiscount)
-            {    
+            {
+                System.out.print(index + 1 +". ");
                 productList.get(index).displayProduct();
+                searchResult.add(productList.get(index));
                 count ++;
             }
         }
         System.out.println("Total " + count + " results!");
-        System.out.println("Please press enter to continue!");
-        console.nextLine();
+        // System.out.println("Please press enter to continue!");
+        // console.nextLine();
+        return count;
     }
     
     public char getInventoryUnit(int index)
@@ -78,10 +101,13 @@ public class ProductController
         return productList.get(index).inventoryUnit();
     }
     
-    public void searchByCategory(String category)
-    { 
+    public int searchByCategory(String category)
+    {
+        searchResult = new ArrayList<Product>();
         Scanner console = new Scanner(System.in);
         category = category.substring(0,1).toUpperCase();
+        if (category.equals("X"))
+            return -1;
         int count = 0;
         System.out.println("                                Search Result  ");
         System.out.println("------------------------------------------------------------------------------------");
@@ -89,20 +115,26 @@ public class ProductController
         {
             if (productList.get(i).getId().substring(0,1).equals(category))
             {
+                System.out.print(count + 1 +". ");
                 productList.get(i).displayProduct();
+                searchResult.add(productList.get(i));
                 count ++;
             }
         }
         System.out.println("Total " + count + " results!");
-        System.out.println("Please press enter to continue!");
-        console.nextLine();
+        // System.out.println("Please press enter to continue!");
+        // console.nextLine();
+        return count;
     }
     
-    public void searchProductByName()
+    public int searchProductByName()
     {
+        searchResult = new ArrayList<Product>();
         Scanner console = new Scanner(System.in);
-        System.out.println("Please enter product name: ");
+        System.out.println("Please enter product name(Enter \"X\" to cancel): ");
         String name = console.nextLine().trim().toUpperCase();
+        if (name.equals("X"))
+            return -1;
         int count = 0;
         System.out.println("                                Search Result  ");
         System.out.println("------------------------------------------------------------------------------------");
@@ -110,27 +142,34 @@ public class ProductController
         {
             if (productList.get(i).getName().toUpperCase().contains(name))
             {
+                System.out.print(count + 1 +". ");
                 productList.get(i).displayProduct();
+                searchResult.add(productList.get(i));
                 count++;
             }
         }
         System.out.println("Total " + count + " results!");
-        System.out.println("Please press enter to continue!");
-        console.nextLine();
+        //System.out.println("Please press enter to continue!");
+        //console.nextLine();
+        return count;
     }
 
-    public void viewProduct()
+    public int viewProduct()
     {
         System.out.println("\u000c");
         System.out.println("                       Product Details");
         System.out.println("------------------------------------------------------------------------------------");
         int size = productList.size();
         for (int i = 0;i < size;i++)
+        {
+            System.out.print(i + 1 + ". ");
             productList.get(i).displayProduct();
+        }
         System.out.println("Total " + size + " results!");    
         Scanner console = new Scanner(System.in);
-        System.out.println("Please press enter to continue!");
-        console.nextLine();
+        return size;
+        //System.out.println("Please press enter to continue!");
+        //console.nextLine();
     }
     
     public void deleteProduct()
@@ -187,7 +226,7 @@ public class ProductController
     public void editCategory(int index,String category)
     {
         String oldId = productList.get(index).getId();
-        String newId = category.substring(0,1) + oldId.substring(1);
+        String newId = category.substring(0,1).toUpperCase() + oldId.substring(1);
         productList.get(index).setId(newId);
         System.out.println("Category edited!");
         Scanner console = new Scanner(System.in);
@@ -227,7 +266,7 @@ public class ProductController
         ArrayList<String[]> option = productList.get(index).getSellingOptionList();
         int size = option.size();
         double discount = productList.get(index).getDiscount();
-        System.out.println(productList.get(index).getName() + ", The discount is " + discount);
+        System.out.println("You are buying " + productList.get(index).getName() + ", The discount is " + discount);
         for(int i = 0;i < size;i++)
         {
             int optionIndex = i + 1;
@@ -256,10 +295,7 @@ public class ProductController
         {
             productIndex--;
             if (productList.get(productIndex).ifExpired())
-            {
-                System.out.println("Product expired!");
-                return -1;
-            }
+                return -2;
             else
                 return productIndex;
         }
@@ -273,7 +309,7 @@ public class ProductController
         for (int i = 0;i < size;i++)
             if (productList.get(i).getName().equals(name))
             {
-                System.out.println("Product name same,please change a new name!");
+                System.out.println("Product name already exist,please change a new name!");
                 return true;
             }
 

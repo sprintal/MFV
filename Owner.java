@@ -22,4 +22,11 @@ public class Owner extends User
         return detail;
     }
     
+    public void displayOwner()
+    {
+        System.out.println("Owner ID: " + getId());
+        System.out.println("Owner Name: " + getName());
+        System.out.println("Email: " + getEmail());
+        System.out.println("---------------------------------------------------------------");
+    }
 }

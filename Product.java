@@ -195,7 +195,7 @@ public class Product
             System.out.println("Original price: AU$" + Double.valueOf(sellingOption[2]) + ", Price after discount: AU$" + 
                                 discountPrice + " for 1 " + sellingOption[0] + "(" + sellingOption[1] + " kg)");
         }
-        System.out.println(amount + inventoryOption + " in stoke");
+        System.out.println(amount + " " + inventoryOption + " in stoke");
         System.out.println("Shelf life: " + shelfLife + " days, current discount: " + discount + ", Start selling date: " + calToStr());
         if (ifExpired())
             System.out.println("Selling condition: Expired!");  
