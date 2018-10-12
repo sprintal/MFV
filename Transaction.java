@@ -109,7 +109,7 @@ public class Transaction
         for (int i = 0;i < size;i++)
             purchase = purchase + "," + purchaseList.get(i)[0] + "," + purchaseList.get(i)[1] + "," + purchaseList.get(i)[2] + ","
                        + purchaseList.get(i)[3] + "," + purchaseList.get(i)[4] + "," + purchaseList.get(i)[5];
-        String detail = userEmail + "," + transactionId + "," + calToStr() + "," + String.valueOf(totalPrice) + "," + purchase;
+        String detail = userEmail + "," + transactionId + "," + calToStr() + "," + String.valueOf(totalPrice) + purchase;
         return detail;
     }
 }
