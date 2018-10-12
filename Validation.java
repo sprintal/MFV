@@ -335,7 +335,7 @@ public class Validation
             return false;             
         }
     }
-    
+
     public boolean validateProductPrice(String price)
     {
         price = price.trim();
@@ -359,7 +359,7 @@ public class Validation
             System.out.println("Price should be a number larger than 0. Please try again(Enter \"X\" to cancel):");
             return false;
         }
-    }
+    } 
 
     public boolean validateAmount(String amount)
     {
@@ -385,7 +385,7 @@ public class Validation
             return false;
         }
     }
-    
+
     public boolean validateYN(String option)
     {
         option = option.toUpperCase().trim();
@@ -393,7 +393,19 @@ public class Validation
             return true;
         else
         {
-            System.out.println("You can only choose \"y\" or \"n\". Please try again(Enter \"X\" to cancel):");
+            System.out.println("You can only choose \"y\" or \"n\". Please try again:");
+            return false;
+        }
+    }
+
+    public boolean validateInteger(String value)
+    {
+        value = value.trim();
+        if (value.matches("^[1-9]+[0-9]*$") || value.equals("x"))
+            return true;
+        else
+        {
+            System.out.println("You can only input digits! Please try again");
             return false;
         }
     }

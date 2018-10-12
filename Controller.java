@@ -34,6 +34,9 @@ public class Controller
     {
         Scanner console = new Scanner(System.in);
         Menu menu = new Menu();
+        userController = new UserController();
+        productController = new ProductController();
+        transactionController = new TransactionController();
         System.out.println("\u000c");
         setList();
         menu.welcomePage();
@@ -54,9 +57,10 @@ public class Controller
             case 'A': ownerLogin();break;
             case 'B': customerLogin();break;
             case 'C': register(); mainMenu(); break;
-            case 'D': unloggedInMenu(-1);
-            mainMenu();break;
-            case 'X': menu.exitPage();writeDetails();break;
+            case 'D': unloggedInMenu(-1);break;
+            case 'X': menu.exitPage();
+                      writeDetails();
+                      break;
             default : break;
         }
     }
@@ -349,20 +353,21 @@ public class Controller
     
     private int chooseOption(int size)
     {
-        Scanner console = new Scanner(System.in);
-        String option = console.nextLine().trim();
+        ReadInput read = new ReadInput();
+        String option = read.readPurchaseOption();
         if (option.equals("X") || option.equals("x"))
             return -1;
-        String str = String.valueOf(size);
-        char cr = str.charAt(0);
-        while (!(option.length() == 1 && ((option.charAt(0) >= '1' && option.charAt(0) <= cr))))
+
+        int optionValue = Integer.parseInt(option);
+        while (optionValue > size)
         {
             System.out.println("Input invalid. Please choose 1..." + size + "(Enter \"X\" to cancel):");
-            option = console.nextLine().trim();
+            option = read.readPurchaseOption();
             if (option.equals("X") || option.equals("x"))
                 return -1;
+            optionValue = Integer.parseInt(option);
         }
-        return Integer.parseInt(String.valueOf(option.charAt(0)));
+        return optionValue;
     }
 
     private void changeCustomerInformation(int index)

@@ -251,4 +251,16 @@ public class ReadInput
 
         return option;
     }
+    
+    public String readPurchaseOption()
+    {
+        Validation valide = new Validation();
+        Scanner console = new Scanner(System.in);
+        String option = console.nextLine().trim();
+        
+        while (!valide.validateInteger(option))
+            option = console.nextLine().trim();
+
+        return option;
+    }
 }
