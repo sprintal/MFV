@@ -3,4 +3,5 @@ Guanwen-Liu,2,gwgwew@fnwoe.ewgweg.efew,Qwer1234`,efwef ewfwe ewfwe,3244322123,1
 Shuaiqi-Li,3,shuaiqili@163.com,ABcd..11,wqe22wqe2,12345678,1
 John-Doe,4,jd@jd.com,Password123.,Nowhere,110110110,0
 Jane-Doe,5,jdjd@djdjd.com,AAA132@a,Somewhere,1231231233,1
+Test-User,6,test@user.com,TestUser123`,Mars,000,1
 -1

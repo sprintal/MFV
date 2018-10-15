@@ -4,37 +4,40 @@ public class TransactionController
 {
     private ArrayList<Transaction> transactionList;
     
+    /**
+     * A default constructor for objects of class TransactionController.
+     */
     public TransactionController()
     {
         transactionList = new ArrayList<Transaction>();
     }
     
+    /**
+     * A constructor for objects of class TransactionController.
+     */
     public TransactionController(ArrayList<Transaction> newTransactionList)
     {
         transactionList = newTransactionList;
     }
     
-    public ArrayList<Transaction> getTransactionList()
+    /**
+     * Create a customerViewTransaction method to display the transactions.
+     */
+    public void customerViewTransaction(String userEmail)
     {
-        return transactionList;
+        for (int index = 0; index < transactionList.size(); index++)
+        {
+            if (transactionList.get(index).getUserEmail().equals(userEmail))
+            {
+                transactionList.get(index).displayTransaction();
+                System.out.println("---------------------------------------------------------------------------------------");
+            }
+        }
     }
     
-    public void setTransactionList(ArrayList<Transaction> newTransactionList)
-    {
-        transactionList = newTransactionList;
-    }
-    
-    public void generateTransaction(String userEmail, ArrayList<String[]> purchaseList, double totalPrice)
-    {
-        Transaction transaction = new Transaction();
-        transaction.setUserEmail(userEmail);
-        transaction.setTransactionId(generateId());
-        transaction.setPurchaseList(purchaseList);
-        transaction.setTotalPrice(totalPrice);
-        transaction.displayTransaction();
-        transactionList.add(transaction);
-    }
-    
+    /**
+     * Create a generateId method to get generate transaction id.
+     */
     private String generateId()
     {
         String id = new String();
@@ -48,18 +51,31 @@ public class TransactionController
         return id;
     }
     
-    public void customerViewTransaction(String userEmail)
+    /**
+     * Create a generateTransaction method to get generate TransactionList detailed.
+     */
+    public void generateTransaction(String userEmail, ArrayList<String[]> purchaseList, double totalPrice)
     {
-        for (int index = 0; index < transactionList.size(); index++)
-        {
-            if (transactionList.get(index).getUserEmail().equals(userEmail))
-            {
-                transactionList.get(index).displayTransaction();
-                System.out.println("---------------------------------------------------------------------------------------");
-            }
-        }
+        Transaction transaction = new Transaction();
+        transaction.setUserEmail(userEmail);
+        transaction.setTransactionId(generateId());
+        transaction.setPurchaseList(purchaseList);
+        transaction.setTotalPrice(totalPrice);
+        transaction.displayTransaction();
+        transactionList.add(transaction);
     }
     
+    /**
+     * Create a getTransactionList method to get TransactionList.
+     */
+    public ArrayList<Transaction> getTransactionList()
+    {
+        return transactionList;
+    }
+    
+    /**
+     * Create a initialTransactionList method to initial Transaction List.
+     */
     public void initialTransactionList(ArrayList<String> detailList)
     {
         int size = detailList.size();
@@ -80,12 +96,21 @@ public class TransactionController
                 purchaseList.add(purchase);
                 currentIndex += 6;
             }
-
             transactionList.add(new Transaction(userEmail, transactionId, purchaseList, date, price));
         }
-
     }
     
+    /**
+     * Create a setTransactionList method to set TransactionList.
+     */
+    public void setTransactionList(ArrayList<Transaction> newTransactionList)
+    {
+        transactionList = newTransactionList;
+    }
+    
+    /**
+     * Create a strToCal method to get the date.
+     */
     private Calendar strToCal(String str)
     {
         Date date = new Date();

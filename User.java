@@ -1,4 +1,3 @@
-
 /**
  * Write a description of class User here.
  *
@@ -7,14 +6,13 @@
  */
 public class User
 {
-
     private String userName;
     private String userId;
     private String email;
     private String password;
 
     /**
-     * Constructor for objects of class User
+     * A defualt constructor for objects of class User
      */
     public User()
     {
@@ -25,10 +23,8 @@ public class User
     }
 
     /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
+     * A constructor for objects of class User.
+     * Passing parameter name, id, newEmail, newPassword.
      */
     public User(String name,String id,String newEmail,String newPassword)
     {
@@ -38,43 +34,67 @@ public class User
         password = newPassword;
     }
     
-    public void setName(String name)
-    {
-        userName = name;
-    }
-    
-    public String getName()
-    {
-        return userName;
-    }
-    
-    public void setId(String id)
-    {
-        userId = id;
-    }
-    
-    public String getId()
-    {
-        return userId;
-    }
-    
-    public void setEmail(String newEmail)
-    {
-        email = newEmail;
-    }
-    
+    /**
+     * Create a getEmail method to get the user email.
+     */
     public String getEmail()
     {
         return email;
     }
     
-    public void setPassword(String newPassword)
+    /**
+     * Create a getId method to get the user's id.
+     */
+    public String getId()
     {
-        password = newPassword;
+        return userId;
     }
     
+    /**
+     * Create a getName method to get the user name.
+     */
+    public String getName()
+    {
+        return userName;
+    }
+    
+    /**
+     * Create a getPassword method to get the user's password
+     */
     public String getPassword()
     {
         return password;
+    }
+    
+    /**
+     * Create a setEmail method to set the user email.
+     */
+    public void setEmail(String newEmail)
+    {
+        email = newEmail;
+    }
+    
+    /**
+     * Create a setId method to set user's id.
+     */
+    public void setId(String id)
+    {
+        userId = id;
+    }
+    
+    /**
+     * Create a setName method to set the user name.
+     */
+    public void setName(String name)
+    {
+        userName = name;
+    }
+    
+    /**
+     * Create a setPassword method to set the user's password.
+     */
+    public void setPassword(String newPassword)
+    {
+        password = newPassword;
     }
 }

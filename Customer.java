@@ -10,10 +10,9 @@ public class Customer extends User
     private String address;
     private String phone;
     private boolean registerCondition;
-    //private Cart cart;
-    //private ArrayList<Transaction> transactionList;
+    
     /**
-     * Constructor for objects of class Customer
+     * A defualt constructor for objects of class Customer.
      */
     public Customer()
     {
@@ -21,79 +20,24 @@ public class Customer extends User
         address = "";
         phone = "";
         registerCondition = true;
-        //cart = new Cart();
-        //transactionList = new ArrayList<Transaction>();
     }
 
+    /**
+     * A constructor for objects of class Customer.
+     * Passing parameter name, id, email, password, address, phone, condition.
+     */
     public Customer(String name,String id,String email,String password,String address,String phone,boolean condition)
     {
         super(name,id,email,password);
         this.address = address;
         this.phone = phone;
         registerCondition = condition;
-        //cart = new Cart();
-        //transactionList = new ArrayList<Transaction>();
     }
 
-    public void setRegisterCondition(boolean condition)
-    {
-        registerCondition = condition;
-    }
-
-    public boolean getRegisterCondition()
-    {
-        return registerCondition;
-    }
-
-    public void setAddress(String newAddress)
-    {
-        address = newAddress;
-    }
-
-    public String getAddress()
-    {
-        return address;
-    }
-
-    public void setPhone(String newPhone)
-    {
-        phone = newPhone;
-    }
-
-    public String getPhone()
-    {
-        return phone;
-    }
-
-    /*
-    public Cart getCart()
-    {
-    return cart;
-    }
-
-    public void setCart(Cart newCart)
-    {
-    cart = newCart;
-    }
-
-    public ArrayList<Transaction> getTransactionList()
-    {
-    return transactionList;
-    }
-
-    public void setTransactionList(ArrayList<Transaction> newTransactionList)
-    {
-    transactionList = newTransactionList;
-    }
-
-    public void displayTransaction()
-    {
-    int size = transactionList.size();
-    for (int i = 0;i < size;i++)
-    transactionList.get(i).displayTransaction();
-    }
+    /**
+     * Create a displayCustomer method to display the customer's information.
+     * It invokes getId(), getName() and getEmail() method.
      */
-
     public void displayCustomer()
     {
         System.out.println("Customer ID: " + getId());
@@ -104,6 +48,17 @@ public class Customer extends User
         System.out.println("---------------------------------------------------------------");
     }
     
+    /**
+     * Create a getAddress method to get the address.
+     */
+    public String getAddress()
+    {
+        return address;
+    }
+    
+    /**
+     * Create a getDetail method to judge whether the user register, if register, it will print the user's details.
+     */
     public String getDetail()
     {
         String registerConditionString = "";
@@ -113,5 +68,45 @@ public class Customer extends User
             registerConditionString = "0";
         String detail = getName() + "," + getId() + "," + getEmail() + "," + getPassword() + "," + address + "," + phone + "," + registerConditionString;
         return detail;
+    }
+    
+    /**
+     * Create a getPhone method to get the phone.
+     */
+    public String getPhone()
+    {
+        return phone;
+    }
+    
+    /**
+     * Create a getRegisterCondition method to get the registerCondition.
+     */
+    public boolean getRegisterCondition()
+    {
+        return registerCondition;
+    }
+    
+    /**
+     * Create a setAddress method to transfer newAddress to address.
+     */
+    public void setAddress(String newAddress)
+    {
+        address = newAddress;
+    }
+    
+    /**
+     * Create a setPhone method to transfer newPhone to phone.
+     */
+    public void setPhone(String newPhone)
+    {
+        phone = newPhone;
+    }
+    
+    /**
+     * Create a setRegisterCondition method to transfer condition to registerCondition.
+     */
+    public void setRegisterCondition(boolean condition)
+    {
+        registerCondition = condition;
     }
 }
